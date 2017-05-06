@@ -7,8 +7,7 @@ The exercises carried out within this sandbox are based on the tutorial realized
 
 ## Requirements
 The following softwares are required to build and run the code:
-* **Node.js** (https://nodejs.org/) : No need to present Node.js however a version greather than v7.x is requested. 
-* **NVM** (https://github.com/creationix/nvm) : A useful tool for helping in managing your Node.js environment.
+* **Node.js** (https://nodejs.org/) : No need to present Node.js however a version greather than v7.x is requested. To help manage Node.js versions, it is recommended to use **NVM** (https://github.com/creationix/nvm).
 * **Yarn** (https://yarnpkg.com) : A powerful dependency manager.
 
 
