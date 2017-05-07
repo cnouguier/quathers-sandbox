@@ -1,0 +1,75 @@
+{
+  "host": "localhost",
+  "port": 3030,
+  "public": "../public/",
+  "paginate": {
+    "default": 10,
+    "max": 50
+  },
+  "authentication": {
+    "secret": "1abe9730652765526ee751fe6d1074a0f45a0d936737edd1851a5d0cffaacec3fa82c8190cbc9ac3d2485207f635e4edcebdc505f493ff7c513850b1d6aee46544a2279c3003426870a9b15cc75952b78be1c7ca81d1be114c476d2f83bb8aa8fab32e8b7ccf456ccd471e45cd0f4846b8b3de1fb108221fe3afd5637abf5f0945abfbbe9c0f5b46c37b34ef028e7076bef038e8281552452faaa89a447a20e97267e4be6638ad3c2fbedc9ccf6f530338c012fa4b8d63aed731d84edeb1deb6846326ef954a94d5fb6a9aecf3cf65bc2d6ffa45fb4a94dc26e7a8270b555130466994732572ea022f7bf4b9aec3f2f0e596d99569d8d7232eb6591736f96801",
+    "strategies": [
+      "jwt",
+      "local"
+    ],
+    "path": "/authentication",
+    "service": "users",
+    "jwt": {
+      "header": {
+        "type": "access"
+      },
+      "audience": "https://yourdomain.com",
+      "subject": "anonymous",
+      "issuer": "feathers",
+      "algorithm": "HS256",
+      "expiresIn": "1d"
+    },
+    "local": {
+      "entity": "user",
+      "service": "users",
+      "usernameField": "email",
+      "passwordField": "password"
+    },
+    "google": {
+      "clientID": "your google client id",
+      "clientSecret": "your google client secret",
+      "successRedirect": "/",
+      "scope": [
+        "profile openid email"
+      ]
+    },
+    "facebook": {
+      "clientID": "your facebook client id",
+      "clientSecret": "your facebook client secret",
+      "successRedirect": "/",
+      "scope": [
+        "public_profile",
+        "email"
+      ],
+      "profileFields": [
+        "id",
+        "displayName",
+        "first_name",
+        "last_name",
+        "email",
+        "gender",
+        "profileUrl",
+        "birthday",
+        "picture",
+        "permissions"
+      ]
+    },
+    "github": {
+      "clientID": "your github client id",
+      "clientSecret": "your github client secret",
+      "successRedirect": "/"
+    },
+    "cookie": {
+      "enabled": true,
+      "name": "feathers-jwt",
+      "httpOnly": false,
+      "secure": false
+    }
+  },
+  "nedb": "../data"
+}
