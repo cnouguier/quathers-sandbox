@@ -34,6 +34,16 @@ export default new VueRouter({
           path: '/home',
           name: 'home',
           component: load('Home')
+        },
+        {
+          path: '/login',
+          name: 'login',
+          component: load('authentication/LogIn')
+        },
+        {
+          path: '/register',
+          name: 'register',
+          component: load('authentication/Register')
         }
       ]
     },
