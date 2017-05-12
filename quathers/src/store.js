@@ -1,18 +1,15 @@
 import { Events } from 'quasar'
 
 export default {
-
-  store: {
-    appName: 'Quathers',
+  userStates: {
     user: null
   },
   getUser () {
-    return this.user
+    return this.userStates.user
   },
   setUser (user) {
     console.log('setting user in store')
-    this.user = user
+    this.userStates.user = user
     Events.$emit('user-changed')
   }
-
 }

@@ -3,11 +3,10 @@
 
     <button @click="$refs.menu.open()" v-show="authenticated">
       <i>menu</i>
-      <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 20]">Menu</q-tooltip>
     </button>
 
     <q-toolbar-title :padding="0">
-      {{$root.store.appName}}
+      Quathers
     </q-toolbar-title>
 
     <button class="primary" @click="$router.push('login')" v-show="!authenticated">
@@ -17,35 +16,42 @@
       Register
     </button>
 
-    <q-fab icon="perm_identity" direction="left" v-show="authenticated">
-      <q-small-fab class="primary" @click.native="logout" icon="exit_to_app">
-        <q-tooltip anchor="bottom middle" self="top middle" :offset="[0, 20]">Sign Out</q-tooltip>
-      </q-small-fab>
-    </q-fab>
+    <button ref="target" class="clear" v-show="authenticated">
+      <i>face</i>
+      <q-popover ref="popover">
+        <div class="list">
+          <div class="item item-link" @click="$refs.popover.close()">
+            <i class="item-primary">perm_identity</i>
+            <div class="item-content">My Profile</div>
+          </div>
+          <div class="item item-link" @click="$refs.popover.close(), logout()">
+            <i class="item-primary">exit_to_app</i>
+            <div class="item-content">Logout</div>
+          </div>
+        </div>
+      </q-popover>
+    </button>
   </div>
 </template>
 
 <script>
-import { Events } from 'quasar'
-import AuthenticationMixin from 'src/mixins/authentication'
+import authentication from 'src/mixins/authentication'
+import store from 'src/store'
 
 export default {
   data () {
     return {
-      authenticated: false
+      userStates: store.userStates
+    }
+  },
+  computed: {
+    authenticated () {
+      return this.$data.userStates.user !== null
     }
   },
   mixins: [
-    AuthenticationMixin
-  ],
-  mounted () {
-    Events.$on('login', () => {
-      this.authenticated = true
-    })
-    Events.$on('logout', () => {
-      this.authenticated = false
-    })
-  }
+    authentication
+  ]
 }
 </script>
 

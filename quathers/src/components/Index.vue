@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { Events } from 'quasar'
+import { Toast, Events } from 'quasar'
 import AppBar from 'src/components/AppBar'
 import Drawer from 'src/components/Drawer'
 import AuthenticationMixin from 'src/mixins/authentication'
@@ -24,7 +24,14 @@ export default {
     'drawer': Drawer
   },
   mounted () {
-    this.authenticate()
+    this.restoreSession()
+    .then(user => {
+      Toast.create.positive('Restoring previous session')
+    })
+    .catch(_ => {
+      Toast.create.negative('Cannot restore previous session')
+      this.$router.push('welcome')
+    })
     Events.$on('login', () => {
       this.$router.push('home')
     })

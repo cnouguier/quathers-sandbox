@@ -1,68 +1,47 @@
-import { Toast, Events } from 'quasar'
+import { Events } from 'quasar'
 import api from 'src/api'
-import store from 'src/store'
+import store from 'src/store.js'
+
+function restoreUser (accessToken) {
+  return api.passport.verifyJWT(accessToken)
+  .then(payload => {
+    return api.service('users').get(payload.userId)
+  })
+  .then(user => {
+    store.setUser(user)
+    Events.$emit('login')
+  })
+}
 
 export default {
   methods: {
-    createUser (user) {
-      return api.service('users').create(user)
-    },
-    getUser (userId) {
-      return api.service('users').get(userId)
-    },
     register (user) {
-      this.createUser(user)
+      return api.service('users').create(user)
       .then(_ => {
         return this.login(user.email, user.password)
       })
-      .catch(_ => {
-        Toast.create.negative('Cannot create the desired user')
-      })
     },
-    authenticate () {
-      api.authenticate()
+    restoreSession () {
+      return api.authenticate()
       .then(response => {
-        return api.passport.verifyJWT(response.accessToken)
-      })
-      .then(payload => {
-        return this.getUser(payload.userId)
-      })
-      .then(user => {
-        store.setUser(user)
-        Events.$emit('user-signed-in')
-      })
-      .catch(_ => {
-        Events.$emit('user-signed-out')
+        return restoreUser(response.accessToken)
       })
     },
     login (email, password) {
-      api.authenticate({
+      return api.authenticate({
         strategy: 'local',
         email: email,
         password: password
       })
       .then(response => {
-        return api.passport.verifyJWT(response.accessToken)
-      })
-      .then(payload => {
-        return this.getUser(payload.userId)
-      })
-      .then(user => {
-        store.setUser(user)
-        Events.$emit('login')
-      })
-      .catch(_ => {
-        Toast.create.negative('Cannot sign in, do you have an account ?')
+        return restoreUser(response.accessToken)
       })
     },
     logout () {
-      api.logout()
+      return api.logout()
       .then(_ => {
         store.setUser(null)
         Events.$emit('logout')
-      })
-      .catch(_ => {
-        Toast.create.negative('Cannot sign out')
       })
     }
   }
