@@ -44,6 +44,11 @@ export default new VueRouter({
           path: '/register',
           name: 'register',
           component: load('authentication/Register')
+        },
+        {
+          path: '/resetpassword',
+          name: 'resetPassword',
+          component: load('authentication/ResetPassword')
         }
       ]
     },
