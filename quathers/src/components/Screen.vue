@@ -22,7 +22,7 @@
               <slot></slot>
             </div>
             <div class="self-center" style="padding:25px">
-              <button class="primary outline big" v-bind:disabled="! canSubmit" @click="submit()">{{action}}</button>
+              <button class="primary big" v-bind:class="{'disabled': invalid}" @click="submit">{{action}}</button>
             </div>
             <div>
               <slot name="footer"></slot>
@@ -35,7 +35,6 @@
 </template>
 
 <script>
-
 export default {
   name: 'screen',
   props: {
@@ -46,19 +45,22 @@ export default {
     action: {
       type: String,
       default: 'Submit'
+    },
+    invalid: {
+      type: Boolean
     }
   },
   data () {
-    return {
-      canSubmit: true
-    }
+    return {}
   },
   methods: {
     close () {
       this.$emit('closed')
     },
     submit () {
-      this.$emit('submitted')
+      if (!this.invalid) {
+        this.$emit('submitted')
+      }
     }
   }
 }

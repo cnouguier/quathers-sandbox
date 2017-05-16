@@ -1,7 +1,8 @@
 <template>
   <screen
     title="Reset Password"
-    v-on:closed="$router.push('welcome')"
+    v-bind:invalid=$v.form.$invalid
+    v-on:closed="$router.push('login')"
     v-on:submitted="doResetPassword()"
     >
     <div class="column gutter justify-center">
@@ -28,7 +29,7 @@
   import Vuelidate from 'vuelidate'
   import { required, email } from 'vuelidate/lib/validators'
   import { Toast } from 'quasar'
-  import AuthenticationScreen from 'src/components/Screen'
+  import Screen from 'src/components/Screen'
 
   Vue.use(Vuelidate)
 
@@ -54,7 +55,7 @@
       }
     },
     components: {
-      'screen': AuthenticationScreen
+      'screen': Screen
     }
   }
 </script>

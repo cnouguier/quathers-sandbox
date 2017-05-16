@@ -1,6 +1,7 @@
 <template>
   <screen
     title="Register"
+    v-bind:invalid=$v.form.$invalid
     v-on:closed="$router.push('/welcome')"
     v-on:submitted="doRegister()">
     <div class="column gutter justify-center">
@@ -47,7 +48,7 @@
       <!-- Confirm Password  -->
       <div>
         <div class="floating-label">
-          <input required type="password" class="full-width" v-model.lazy="form.confirmPassword" @input="$v.form.confirmPassword.$touch()" v-bind:class="{'has-error': $v.form.confirmPassword.$error}">
+          <input required type="password" class="full-width" v-model="form.confirmPassword" @input="$v.form.confirmPassword.$touch()" v-bind:class="{'has-error': $v.form.confirmPassword.$error}">
           <label>Confirm Password</label>
         </div>
       </div>
@@ -72,6 +73,7 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
+import { Toast } from 'quasar'
 import Screen from 'src/components/Screen'
 import authenticationMixin from 'src/mixins/authentication'
 
@@ -117,6 +119,9 @@ export default {
   methods: {
     doRegister () {
       this.register(this.$data.form)
+      .catch(_ => {
+        Toast.create.negative('Cannot register. Please contact our support.')
+      })
     }
   },
   mixins: [authenticationMixin],
