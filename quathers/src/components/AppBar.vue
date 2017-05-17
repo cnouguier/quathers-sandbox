@@ -1,7 +1,7 @@
 <template>
   <div class="toolbar">
 
-    <button @click="$refs.menu.open()" v-show="authenticated">
+    <button @click="$emit('menu-opened')" v-show="authenticated">
       <i>menu</i>
     </button>
 
@@ -16,9 +16,10 @@
       Register
     </button>
 
-    <button ref="target" class="clear" v-show="authenticated">
-      <i>face</i>
-      <q-popover ref="popover">
+    <span class="chip label bg-white text-primary" v-show="authenticated">
+      <img :src="avatar">
+      {{name}}
+      <q-popover ref="popover" anchor="bottom right" self="top right">
         <div class="list">
           <div class="item item-link" @click="$refs.popover.close()">
             <i class="item-primary">perm_identity</i>
@@ -30,7 +31,8 @@
           </div>
         </div>
       </q-popover>
-    </button>
+    </span>
+
   </div>
 </template>
 
@@ -39,6 +41,7 @@ import authentication from 'src/mixins/authentication'
 import store from 'src/store'
 
 export default {
+  name: 'app-bar',
   data () {
     return {
       userStates: store.userStates
@@ -47,6 +50,19 @@ export default {
   computed: {
     authenticated () {
       return this.$data.userStates.user !== null
+    },
+    avatar () {
+      if (this.authenticated) {
+        return this.$data.userStates.user.avatar
+      }
+      return ''
+    },
+    name () {
+      // TODO: use the firstname instead
+      if (this.authenticated) {
+        return this.$data.userStates.user.email
+      }
+      return ''
     }
   },
   mixins: [

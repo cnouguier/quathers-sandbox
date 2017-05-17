@@ -1,6 +1,7 @@
 const { authenticate } = require('feathers-authentication').hooks;
 const commonHooks = require('feathers-hooks-common');
 const { restrictToOwner } = require('feathers-authentication-hooks');
+const gravatar = require('../../hooks/gravatar')
 
 const { hashPassword } = require('feathers-authentication-local').hooks;
 const restrict = [
@@ -30,7 +31,7 @@ module.exports = {
       )
     ],
     find: [],
-    get: [],
+    get: [ gravatar() ],
     create: [],
     update: [],
     patch: [],

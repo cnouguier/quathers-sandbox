@@ -1,6 +1,6 @@
 <template>
   <q-layout>
-    <app-bar ref="appbar" slot="header" ></app-bar>
+    <app-bar ref="appbar" slot="header"></app-bar>
     <drawer ref="drawer"></drawer>
     <!-- sub-routes -->
     <router-view class="layout-view"></router-view>
@@ -37,6 +37,9 @@ export default {
     })
     Events.$on('logout', () => {
       this.$router.push('welcome')
+    })
+    this.$refs.appbar.$on('menu-opened', () => {
+      this.$refs.drawer.open()
     })
   }
 }
