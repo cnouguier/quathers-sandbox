@@ -1,27 +1,35 @@
 <template>
-  <q-layout>
-    <app-bar ref="appbar" slot="header"></app-bar>
-    <drawer ref="drawer"></drawer>
-    <!-- sub-routes -->
-    <router-view class="layout-view"></router-view>
-  </q-layout>
+  <div>
+    <div v-if="authenticated">
+      <layout></layout>
+    </div>
+    <div v-else>
+      <router-view class="layout-view"></router-view>
+    </div>
+  </div>
 </template>
 
 <script>
 import { Toast, Events } from 'quasar'
-import AppBar from 'src/components/AppBar'
-import Drawer from 'src/components/Drawer'
+import Layout from 'src/components/layout/Layout'
 import AuthenticationMixin from 'src/mixins/authentication'
+import store from 'src/store'
 
 export default {
+  name: 'index',
   data () {
     return {
+      userStates: store.userStates
+    }
+  },
+  computed: {
+    authenticated () {
+      return this.userStates.user !== null
     }
   },
   mixins: [ AuthenticationMixin ],
   components: {
-    'app-bar': AppBar,
-    'drawer': Drawer
+    Layout
   },
   mounted () {
     this.restoreSession()
@@ -29,17 +37,13 @@ export default {
       Toast.create.positive('Restoring previous session')
     })
     .catch(_ => {
-      Toast.create.negative('Cannot restore previous session')
-      this.$router.push('welcome')
+      this.$router.push({name: 'login'})
     })
     Events.$on('login', () => {
-      this.$router.push('home')
+      this.$router.push({name: 'home'})
     })
     Events.$on('logout', () => {
-      this.$router.push('welcome')
-    })
-    this.$refs.appbar.$on('menu-opened', () => {
-      this.$refs.drawer.open()
+      this.$router.push({name: 'login'})
     })
   }
 }

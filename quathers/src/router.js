@@ -1,5 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
+import store from 'src/store.js'
 
 Vue.use(VueRouter)
 
@@ -19,22 +20,12 @@ export default new VueRouter({
    * If switching back to default "hash" mode, don't forget to set the
    * build publicPath back to '' so Cordova builds work again.
    */
-
   routes: [
     {
       path: '/',
+      name: 'index',
       component: load('Index'),
       children: [
-        {
-          path: '/welcome',
-          name: 'welcome',
-          component: load('Welcome')
-        },
-        {
-          path: '/home',
-          name: 'home',
-          component: load('Home')
-        },
         {
           path: '/login',
           name: 'login',
@@ -49,6 +40,34 @@ export default new VueRouter({
           path: '/resetpassword',
           name: 'resetPassword',
           component: load('authentication/ResetPassword')
+        },
+        {
+          path: '/home',
+          name: 'home',
+          component: load('Home'),
+          beforeEnter: (to, from, next) => {
+            if (store.userStates.user !== null) {
+              next()
+            }
+            else {
+              console.log('Access forbidden: please log in to access this page.')
+            }
+          }
+        },
+        {
+          path: '/users',
+          name: 'users',
+          component: load('users/Users')
+        },
+        {
+          path: '/groups',
+          name: 'groups',
+          component: load('groups/Groups')
+        },
+        {
+          path: '/organizations',
+          name: 'organizations',
+          component: load('organizations/Organizations')
         }
       ]
     },

@@ -2,7 +2,7 @@
   <screen
     title="Log In"
     v-bind:invalid=$v.form.$invalid
-    v-on:closed="$router.push('/welcome')"
+    v-on:closed="$router.push('/')"
     v-on:submitted="doLogin()"
     >
     <div class="column gutter justify-center">

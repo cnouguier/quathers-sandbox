@@ -2,7 +2,7 @@
   <screen
     title="Register"
     v-bind:invalid=$v.form.$invalid
-    v-on:closed="$router.push('/welcome')"
+    v-on:closed="$router.push('/')"
     v-on:submitted="doRegister()">
     <div class="column gutter justify-center">
       <!-- Fist name -->

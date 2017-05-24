@@ -30,7 +30,7 @@ module.exports = {
         commonHooks.discard('password')
       )
     ],
-    find: [],
+    find: [ gravatar() ],
     get: [ gravatar() ],
     create: [],
     update: [],
