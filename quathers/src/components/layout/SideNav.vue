@@ -40,7 +40,7 @@
         <i class="item-primary">help</i>
         <div class="item-content">Help</div>
       </div>
-      <div class="item item-link" @click="logout">
+      <div class="item item-link" @click="exit">
         <i class="item-primary">exit_to_app</i>
         <div class="item-content">Logout</div>
       </div>
@@ -50,7 +50,7 @@
 
 <script>
 import store from 'src/store'
-import authentication from 'src/mixins/authentication'
+import { logout } from 'src/authentication'
 
 export default {
   name: 'side-nav',
@@ -71,13 +71,10 @@ export default {
     },
     profile () {
 
+    },
+    exit () {
+      logout()
     }
-  },
-  mixins: [
-    authentication
-  ]
+  }
 }
 </script>
-
-<style>
-</style>

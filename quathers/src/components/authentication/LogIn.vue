@@ -3,7 +3,7 @@
     title="Log In"
     v-bind:invalid=$v.form.$invalid
     v-on:closed="$router.push('/')"
-    v-on:submitted="doLogin()"
+    v-on:submitted="submit()"
     >
     <div class="column gutter justify-center">
       <!-- Email -->
@@ -50,11 +50,15 @@ import Vuelidate from 'vuelidate'
 import { required, email, minLength } from 'vuelidate/lib/validators'
 import { Toast } from 'quasar'
 import Screen from 'src/components/Screen'
-import authenticationMixin from 'src/mixins/authentication'
+import { login } from 'src/authentication'
 
 Vue.use(Vuelidate)
 
 export default {
+  name: 'login',
+  components: {
+    Screen
+  },
   data () {
     return {
       form: {
@@ -76,19 +80,12 @@ export default {
     }
   },
   methods: {
-    doLogin () {
-      this.login(this.$data.form.email, this.$data.form.password)
+    submit () {
+      login(this.$data.form.email, this.$data.form.password)
       .catch(_ => {
         Toast.create.negative('Cannot login. Please check your credentials and try again.')
       })
     }
-  },
-  mixins: [authenticationMixin],
-  components: {
-    'screen': Screen
   }
 }
 </script>
-
-<style>
-</style>

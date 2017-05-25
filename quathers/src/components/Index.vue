@@ -12,11 +12,13 @@
 <script>
 import { Toast, Events } from 'quasar'
 import Layout from 'src/components/layout/Layout'
-import AuthenticationMixin from 'src/mixins/authentication'
+import { restoreSession } from 'src/authentication'
 import store from 'src/store'
 
 export default {
-  name: 'index',
+  components: {
+    Layout
+  },
   data () {
     return {
       userStates: store.userStates
@@ -27,12 +29,8 @@ export default {
       return this.userStates.user !== null
     }
   },
-  mixins: [ AuthenticationMixin ],
-  components: {
-    Layout
-  },
   mounted () {
-    this.restoreSession()
+    restoreSession()
     .then(user => {
       Toast.create.positive('Restoring previous session')
     })

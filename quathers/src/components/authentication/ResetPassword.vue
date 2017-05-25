@@ -34,6 +34,10 @@
   Vue.use(Vuelidate)
 
   export default {
+    name: 'reset-password',
+    components: {
+      Screen
+    },
     data () {
       return {
         form: {
@@ -53,9 +57,6 @@
       doResetPassword () {
         Toast.create.negative('To be implemented')
       }
-    },
-    components: {
-      'screen': Screen
     }
   }
 </script>

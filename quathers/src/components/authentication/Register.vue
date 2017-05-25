@@ -3,7 +3,7 @@
     title="Register"
     v-bind:invalid=$v.form.$invalid
     v-on:closed="$router.push('/')"
-    v-on:submitted="doRegister()">
+    v-on:submitted="submit()">
     <div class="column gutter justify-center">
       <!-- Fist name -->
       <div>
@@ -75,11 +75,15 @@ import Vuelidate from 'vuelidate'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
 import { Toast } from 'quasar'
 import Screen from 'src/components/Screen'
-import authenticationMixin from 'src/mixins/authentication'
+import { register } from 'src/authentication'
 
 Vue.use(Vuelidate)
 
 export default {
+  name: 'register',
+  components: {
+    Screen
+  },
   data () {
     return {
       form: {
@@ -117,16 +121,15 @@ export default {
     }
   },
   methods: {
-    doRegister () {
-      this.register(this.$data.form)
+    submit () {
+      register(this.$data.form)
+      .then(_ => {
+        this.$router.push({name: 'home'})
+      })
       .catch(_ => {
         Toast.create.negative('Cannot register. Please contact our support.')
       })
     }
-  },
-  mixins: [authenticationMixin],
-  components: {
-    'screen': Screen
   }
 }
 </script>

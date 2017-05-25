@@ -1,6 +1,5 @@
 <template>
   <div class="toolbar">
-
     <button class="hide-on-drawer-visible" @click="$emit('side-nav-menu-clicked')">
       <i>menu</i>
     </button>
@@ -31,6 +30,3 @@ export default {
   }
 }
 </script>
-
-<style>
-</style>
