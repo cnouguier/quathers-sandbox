@@ -28,7 +28,8 @@
       Secondary navigation links
     --> 
     <div class="list">
-      <q-drawer-link icon="person" to="/users">Users &amp; skills</q-drawer-link>
+      <q-drawer-link icon="person" to="/users">Users</q-drawer-link>
+      <q-drawer-link icon="school" to="/skill">Skills</q-drawer-link>
       <q-drawer-link icon="group" to="/groups">Groups</q-drawer-link>
       <q-drawer-link icon="domain" to="/organizations">Organizations</q-drawer-link>
     </div>

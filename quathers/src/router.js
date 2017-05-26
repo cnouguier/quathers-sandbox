@@ -60,6 +60,11 @@ export default new VueRouter({
           component: load('users/Users')
         },
         {
+          path: '/user',
+          name: 'user',
+          component: load('users/User')
+        },
+        {
           path: '/groups',
           name: 'groups',
           component: load('groups/Groups')

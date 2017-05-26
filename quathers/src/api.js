@@ -12,5 +12,7 @@ const api = feathers()
   .configure(auth({ storage: window.localStorage }))
 
 api.service('/users')
+api.service('/groups')
+api.service('/organizations')
 
 export default api
