@@ -3,18 +3,19 @@
     <!-- Filter section -->
     <div class="column justify-center gutter">
       <div>
-        <q-search v-model="search" style="padding: 18px"></q-search>
+        <q-search v-model="filter.search" style="padding: 18px"></q-search>
       </div>
     </div>
     <!-- Items section -->
-    <q-infinite-scroll :handler="loadItems">
-      <div class="list" v-for="item in items">
-        <slot name="item" :item="item"></slot>
+    <div ref="items" class="list" v-for="item in items">
+      <slot name="item" :item="item"></slot>
+    </div>
+    <!-- Pagination section -->
+    <div class="row justify-center" style="padding: 18px">
+      <div>
+        <q-pagination ref="pagination" v-model="currentPage" :max="pagesCount"></q-pagination>
       </div>
-      <div class="row justify-center" style="margin-bottom: 50px;">
-          <spinner name="dots" slot="message" :size="40"></spinner>
-      </div>
-    </q-infinite-scroll>
+    </div>
     <!-- Add button -->
     <button v-if="addAction"
       class="absolute-bottom-right primary circular"
@@ -26,7 +27,7 @@
 </template>
 
 <script>
-import { Dialog } from 'quasar'
+import { Dialog, Events } from 'quasar'
 import api from 'src/api'
 
 export default {
@@ -44,19 +45,31 @@ export default {
   data () {
     return {
       items: [],
-      search: '',
-      page: 1
+      itemsCount: 0,
+      itemsLimit: 1,
+      currentPage: 1,
+      filter: {
+        search: ''
+      }
+    }
+  },
+  computed: {
+    pagesCount () {
+      return Math.ceil(this.$data.itemsCount / this.$data.itemsLimit)
     }
   },
   methods: {
-    loadItems () {
-
-    },
     listItems () {
-      console.log(this.service)
-      api.service(this.service).find()
+      let skipCount = (this.$data.currentPage - 1) * this.$data.itemsLimit
+      api.service(this.service).find({
+        query: {
+          $skip: skipCount
+         }
+      })
       .then((response) => {
         this.$data.items = response.data
+        this.$data.itemsCount = response.total
+        this.$data.itemsLimit = response.limit
       })
     },
     createItem () {
@@ -91,6 +104,9 @@ export default {
     }
   },
   mounted () {
+    this.$refs.pagination.$on('input', () => {
+        this.listItems()
+    })
     this.listItems()
   }
 }

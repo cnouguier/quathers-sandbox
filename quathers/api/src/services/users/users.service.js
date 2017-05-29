@@ -12,7 +12,10 @@ module.exports = function () {
   const options = {
     name: 'users',
     Model,
-    paginate
+    paginate: {
+      default: 6,
+      max: 12
+    }
   };
 
   // Initialize our service with any options it requires
