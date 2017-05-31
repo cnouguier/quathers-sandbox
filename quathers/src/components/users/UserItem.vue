@@ -24,7 +24,7 @@
 
 <script>
 export default {
-  name: 'user',
+  name: 'user-item',
   props: {
     item: null
   },

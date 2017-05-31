@@ -8,7 +8,7 @@
     </div>
     <!-- Items section -->
     <div ref="items" class="list" v-for="item in items">
-      <slot name="item" :item="item"></slot>
+      <component :is="renderer" :item="item"></component>
     </div>
     <!-- Pagination section -->
     <div class="row justify-center" style="padding: 18px">
@@ -27,7 +27,8 @@
 </template>
 
 <script>
-import { Dialog, Events } from 'quasar'
+import { Dialog } from 'quasar'
+import components from 'src/components'
 import api from 'src/api'
 
 export default {
@@ -36,6 +37,11 @@ export default {
     service: {
       type: String,
       required: true
+    },
+    renderer: {
+      type: String,
+      required: true,
+      default: 'item'
     },
     addAction: {
       type: Boolean,
@@ -59,12 +65,17 @@ export default {
     }
   },
   methods: {
+    isRenderer (candidate, needed) {
+      console.log(candidate)
+      console.log(needed)
+      return candidate === needed
+    },
     listItems () {
       let skipCount = (this.$data.currentPage - 1) * this.$data.itemsLimit
       api.service(this.service).find({
         query: {
           $skip: skipCount
-         }
+        }
       })
       .then((response) => {
         this.$data.items = response.data
@@ -86,7 +97,7 @@ export default {
       })
     },
     updateItem () {
-      this.$router.push({name: 'user'})
+      // this.$router.push({name: 'user'})
     },
     deleteItem (item) {
       Dialog.create({
@@ -103,9 +114,17 @@ export default {
       })
     }
   },
+  beforeCreate () {
+    // load the default Item renderer
+    this.$options.components.Item = require('src/components/collection/Item')
+    // load additionnal renderers
+    for (let component of components.collection) {
+      this.$options.components[component.name] = component.vue
+    }
+  },
   mounted () {
     this.$refs.pagination.$on('input', () => {
-        this.listItems()
+      this.listItems()
     })
     this.listItems()
   }
