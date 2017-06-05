@@ -13,16 +13,16 @@ module.exports = function () {
     name: 'groups',
     Model,
     paginate: {
-      default: 6,
-      max: 12
+      default: 10,
+      max: 25
     }
   };
 
   // Initialize our service with any options it requires
-  app.use('/y', createService(options));
+  app.use('/groups', createService(options));
 
   // Get our initialized service so that we can register hooks and filters
-  const service = app.service('y');
+  const service = app.service('groups');
 
   service.hooks(hooks);
 
@@ -30,3 +30,4 @@ module.exports = function () {
     service.filter(filters);
   }
 };
+

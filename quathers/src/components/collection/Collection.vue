@@ -1,22 +1,21 @@
 <template>
   <div>
     <!-- Filter section -->
-    <div class="column justify-center gutter">
-      <div>
-        <q-search v-model="filter.search" style="padding: 18px"></q-search>
-      </div>
+    <div v-show="filter !== ''">
+      <component ref="filter" :is="filter" v-model="query"></component>
     </div>
     <!-- Items section -->
-    <div ref="items" class="list" v-for="item in items">
-      <component :is="renderer" :item="item"></component>
-    </div>
-    <!-- Pagination section -->
-    <div class="row justify-center" style="padding: 18px">
+    <div v-show="itemsCount > 0" class="column justify-center items-center">
+      <div class="full-width">
+        <div class="list" v-for="item in items">
+          <component :is="renderer" :item="item"></component>
+        </div>
+      </div>
       <div>
-        <q-pagination ref="pagination" v-model="currentPage" :max="pagesCount"></q-pagination>
+        <q-pagination ref="pagination" v-model="currentPage" :max="pagesCount" style="padding: 18px"></q-pagination>
       </div>
     </div>
-    <!-- Add button -->
+    <!-- Actions section -->
     <button v-if="addAction"
       class="absolute-bottom-right primary circular"
       style="right: 18px; bottom: 18px"
@@ -40,47 +39,53 @@ export default {
     },
     renderer: {
       type: String,
-      required: true,
-      default: 'item'
+      default: 'defaultRenderer'
+    },
+    filter: {
+      type: String,
+      default: 'defaultFilter'
     },
     addAction: {
       type: Boolean,
       default: true
+    },
+    pageSize: {
+      type: Number,
+      default: 0
     }
   },
   data () {
     return {
       items: [],
       itemsCount: 0,
-      itemsLimit: 1,
+      itemsPerPage: 0,
       currentPage: 1,
-      filter: {
-        search: ''
+      query: {
       }
     }
   },
   computed: {
     pagesCount () {
-      return Math.ceil(this.$data.itemsCount / this.$data.itemsLimit)
+      return Math.ceil(this.$data.itemsCount / this.$data.itemsPerPage)
     }
   },
   methods: {
-    isRenderer (candidate, needed) {
-      console.log(candidate)
-      console.log(needed)
-      return candidate === needed
-    },
-    listItems () {
-      let skipCount = (this.$data.currentPage - 1) * this.$data.itemsLimit
+    readItems () {
+      // overlaord the numbero of items to be loaded
+      if (this.$data.itemsPerPage > 0) {
+        this.query.$limit = this.$data.itemsPerPage
+        this.query.$skip = (this.$data.currentPage - 1) * this.$data.itemsPerPage
+      }
+      // find the desires items
       api.service(this.service).find({
-        query: {
-          $skip: skipCount
-        }
+        query: this.query
       })
       .then((response) => {
         this.$data.items = response.data
         this.$data.itemsCount = response.total
-        this.$data.itemsLimit = response.limit
+        if (this.pageSize === 0) {
+          this.$data.itemsPerPage = response.limit
+        }
       })
     },
     createItem () {
@@ -115,18 +120,23 @@ export default {
     }
   },
   beforeCreate () {
-    // load the default Item renderer
-    this.$options.components.Item = require('src/components/collection/Item')
+    // load default components
+    this.$options.components.defaultFilter = require('src/components/collection/Filter')
+    this.$options.components.defaultRenderer = require('src/components/collection/Item')
     // load additionnal renderers
     for (let component of components.collection) {
       this.$options.components[component.name] = component.vue
     }
   },
   mounted () {
-    this.$refs.pagination.$on('input', () => {
-      this.listItems()
+    this.$refs.filter.$on('input', () => {
+      this.readItems()
     })
-    this.listItems()
+    this.$refs.pagination.$on('input', () => {
+      this.readItems()
+    })
+    this.$data.itemsPerPage = this.pageSize
+    this.readItems()
   }
 }
 </script>

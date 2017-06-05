@@ -13,8 +13,8 @@ module.exports = function () {
     name: 'users',
     Model,
     paginate: {
-      default: 6,
-      max: 12
+      default: 10,
+      max: 25
     }
   };
 

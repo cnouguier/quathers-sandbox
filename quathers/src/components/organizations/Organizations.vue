@@ -1,7 +1,8 @@
 <template>
   <collection 
     ref="collection" 
-    :service="'organizations'">
+    :service="'organizations'"
+    :page-size="5">
   </collection>
 </template>
 
