@@ -2,6 +2,7 @@
   <collection 
     ref="collection" 
     :service="'groups'"
+    :page-size="5">
   </collection>
 </template>
 
