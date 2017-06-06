@@ -1,8 +1,8 @@
 export default {
   collection: [
     {
-      name: 'User',
-      vue: require('src/components/users/User')
+      name: 'UserItem',
+      vue: require('src/components/users/UserItem')
     }
   ]
 }
