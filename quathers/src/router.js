@@ -67,12 +67,26 @@ export default new VueRouter({
         {
           path: '/groups',
           name: 'groups',
-          component: load('groups/Groups')
+          component: load('groups/Groups'),
+          children: [
+            {
+              path: '/group',
+              name: 'group',
+              component: load('groups/Group')
+            }
+          ]
         },
         {
           path: '/organizations',
           name: 'organizations',
-          component: load('organizations/Organizations')
+          component: load('organizations/Organizations'),
+          children: [
+            {
+              path: '/organization',
+              name: 'organization',
+              component: load('organizations/organization')
+            }
+          ]
         }
       ]
     },

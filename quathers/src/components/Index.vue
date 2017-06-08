@@ -11,7 +11,7 @@
 
 <script>
 import { Toast, Events } from 'quasar'
-import Layout from 'src/components/layout/Layout'
+import Layout from 'src/components/Layout'
 import { restoreSession } from 'src/authentication'
 import store from 'src/store'
 

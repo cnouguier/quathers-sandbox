@@ -3,23 +3,7 @@
     <!--
       User's identity and related actions
     --> 
-    <div class="column justify-center bg-dark text-light" style="padding:18px">
-      <div class="self-center">
-        <img :src="user.avatar" style="border-radius:50%" width="96px" height="96px">
-      </div>
-      <div>
-        <div class="row justify-between items-center">
-          <div>
-            <h6>{{user.firstName}} {{user.lastName}}</h6>
-          </div>
-          <div>
-            <button class="circular clear" v-on:click="profile">
-              <i>perm_identity</i>
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <identity />
     <!--
       Primary navigation links
     --> 
@@ -50,21 +34,17 @@
 </template>
 
 <script>
-import store from 'src/store'
+import config from 'src/configuration.js'
+import { loadComponent } from 'src/utils.js'
 import { logout } from 'src/authentication'
 
 export default {
   name: 'side-nav',
-  props: {
-    links: []
+  components: {
+    'identity': loadComponent(config.sideNav.identity ? config.sideNav.identity : 'Identity')
   },
   data () {
     return {}
-  },
-  computed: {
-    user () {
-      return store.userStates.user
-    }
   },
   methods: {
     open () {
@@ -73,12 +53,12 @@ export default {
     help () {
       // todo
     },
-    profile () {
-
-    },
     exit () {
       logout()
     }
+  },
+  mounted () {
+    this.$emit('sideNavReady')
   }
 }
 </script>

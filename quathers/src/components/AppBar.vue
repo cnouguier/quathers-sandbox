@@ -1,6 +1,6 @@
 <template>
   <div class="toolbar">
-    <button class="hide-on-drawer-visible" @click="$emit('side-nav-menu-clicked')">
+    <button class="hide-on-drawer-visible" @click="$emit('navMenuClicked')">
       <i>menu</i>
     </button>
 
@@ -11,14 +11,14 @@
 </template>
 
 <script>
-import store from 'src/store'
-
 export default {
   name: 'app-bar',
   data () {
     return {
-      userStates: store.userStates
     }
+  },
+  mounted () {
+    this.$emit('appBarReady')
   }
 }
 </script>

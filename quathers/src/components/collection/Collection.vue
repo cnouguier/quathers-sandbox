@@ -1,10 +1,14 @@
 <template>
   <div>
-    <!-- Filter section -->
+    <!-- 
+      Filter section 
+    -->
     <div v-show="filter !== ''">
       <component ref="filter" :is="filter" v-model="query"></component>
     </div>
-    <!-- Items section -->
+    <!-- 
+      Items section 
+    -->
     <div v-show="itemsCount > 0" class="column justify-center items-center">
       <div class="full-width">
         <div class="list" v-for="item in items">
@@ -12,10 +16,13 @@
         </div>
       </div>
       <div>
-        <q-pagination ref="pagination" v-model="currentPage" :max="pagesCount" style="padding: 18px"></q-pagination>
+        <q-pagination ref="pagination" v-model="currentPage" :max="pagesCount" style="padding: 18px">
+        </q-pagination>
       </div>
     </div>
-    <!-- Actions section -->
+    <!-- 
+      Actions section 
+    -->
     <button v-if="addAction"
       class="absolute-bottom-right primary circular"
       style="right: 18px; bottom: 18px"
@@ -27,7 +34,7 @@
 
 <script>
 import { Dialog } from 'quasar'
-import components from 'src/components'
+// import components from 'src/components'
 import api from 'src/api'
 
 export default {
@@ -119,13 +126,20 @@ export default {
       })
     }
   },
-  beforeCreate () {
-    // load default components
-    this.$options.components.defaultFilter = require('src/components/collection/Filter')
-    this.$options.components.defaultRenderer = require('src/components/collection/Item')
-    // load additionnal renderers
-    for (let component of components.collection) {
-      this.$options.components[component.name] = component.vue
+  created () {
+    // load the filter
+    if (this.filter !== 'defaultFilter') {
+      this.$options.components[this.filter] = () => System.import('src/components/users/' + this.filter)
+    }
+    else {
+      this.$options.components.defaultFilter = require('src/components/collection/Filter')
+    }
+    // load the renderer
+    if (this.renderer !== 'defaultRenderer') {
+      this.$options.components[this.renderer] = () => System.import('src/components/users/' + this.renderer)
+    }
+    else {
+      this.$options.components.defaultRenderer = require('src/components/collection/Item')
     }
   },
   mounted () {

@@ -18,7 +18,6 @@ export function register (user) {
   delete user.policiesAccepted
   return api.service('users').create(user)
   .then(_ => {
-    console.log('login')
     return this.login(user.email, user.password)
   })
 }
@@ -37,7 +36,6 @@ export function login (email, password) {
     password: password
   })
   .then(response => {
-    console.log('login:authenticated')
     return restoreUser(response.accessToken)
   })
 }

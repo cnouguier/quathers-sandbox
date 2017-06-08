@@ -2,7 +2,7 @@
   <collection 
     ref="collection" 
     :service="'users'" 
-    :renderer="'user-item'"
+    :renderer="'UserItem'"
     :page-size="5">
   </collection>
 </template>

@@ -1,8 +1,8 @@
 <template>
   <!--
     Setups the  main layout of the application following the guidelines
-    presented here: https://material.io/guidelines/layout/structure.html#
-    Thus, the layout is composed of  3 main components:
+    exposed here: https://material.io/guidelines/layout/structure.html#
+    The layout is composed of  3 main components:
     - The App bar
     - the Side nav
     - the Content area
