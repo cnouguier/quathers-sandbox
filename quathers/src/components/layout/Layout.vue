@@ -56,6 +56,9 @@ export default {
     // initialize vprivate stuff
     this.appBarReady = false
     this.sideNavReady = false
+  },
+  mounted () {
+    this.$emit('layoutReady')
   }
 }
 </script>
