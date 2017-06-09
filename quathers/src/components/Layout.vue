@@ -53,8 +53,6 @@ export default {
     }
   },
   beforeCreate () {
-    // load the configuration
-    this.configuration = config.app.layout
     // initialize vprivate stuff
     this.__appBarReady = false
     this.__sideNavReady = false
