@@ -35,14 +35,14 @@ export default {
   },
   methods: {
     onAppBarReady () {
-      this.__appBarReady = true
-      if (this.__sideNavReeady) {
+      this.appBarReady = true
+      if (this.sideNavReeady) {
         this.connectAppBarNavMenuToSideNav()
       }
     },
     onSideNavReady () {
-      this.__sideNavReady = true
-      if (this.__appBarReady) {
+      this.sideNavReady = true
+      if (this.appBarReady) {
         this.connectAppBarNavMenuToSideNav()
       }
     },
@@ -54,8 +54,8 @@ export default {
   },
   beforeCreate () {
     // initialize vprivate stuff
-    this.__appBarReady = false
-    this.__sideNavReady = false
+    this.appBarReady = false
+    this.sideNavReady = false
   }
 }
 </script>

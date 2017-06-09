@@ -9,24 +9,29 @@ module.exports = {
   appBar: {
   },
   sideNav: {
-    primaryLinks: [
-          // to be personalized
-    ],
-    secondaryLinks: [
+    links: [
       {
-        name: 'Users',
+        label: 'Users',
         icon: 'person',
         route: 'users'
       },
       {
-        name: 'Groups',
+        label: 'Groups',
         icon: 'group',
         route: 'groups'
       },
       {
-        name: 'Organizations',
+        label: 'Organizations',
         icon: 'domain',
         route: 'organizations'
+      },
+      {
+        // separator
+      },
+      {
+        label: 'Logout',
+        icon: 'exit_to_app',
+        route: 'logout'
       }
     ]
   }
