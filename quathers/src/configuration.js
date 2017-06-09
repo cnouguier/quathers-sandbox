@@ -3,12 +3,13 @@ module.exports = {
     name: 'Quathers'
   },
   layout: {
-    appBar: 'AppBar',
-    sideNav: 'SideNav'
+    // appBar: 'layout/AppBar',
+    // sideNav: 'layout/SideNav'
   },
   appBar: {
   },
   sideNav: {
+    // identity: 'layout/Identity'
     links: [
       {
         label: 'Users',

@@ -27,8 +27,8 @@ import { loadComponent } from 'src/utils.js'
 export default {
   name: 'layout',
   components: {
-    'app-bar': loadComponent(config.layout ? config.layout.appBar : 'AppBar'),
-    'side-nav': loadComponent(config.layout ? config.layout.sideNav : 'SideNav')
+    'app-bar': loadComponent(config.layout.appBar ? config.layout.appBar : 'layout/AppBar'),
+    'side-nav': loadComponent(config.layout.sideNav ? config.layout.sideNav : 'layout/SideNav')
   },
   data () {
     return {}

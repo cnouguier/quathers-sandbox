@@ -25,7 +25,7 @@ import { loadComponent } from 'src/utils.js'
 export default {
   name: 'side-nav',
   components: {
-    'identity': loadComponent(config.sideNav.identity ? config.sideNav.identity : 'Identity')
+    'identity': loadComponent(config.sideNav.identity ? config.sideNav.identity : 'layout/Identity')
   },
   data () {
     return {
