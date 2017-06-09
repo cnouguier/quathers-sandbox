@@ -44,18 +44,35 @@ export default {
     'identity': loadComponent(config.sideNav.identity ? config.sideNav.identity : 'Identity')
   },
   data () {
-    return {}
+    return {
+      primaryLinks: [],
+      secondaryLinks: [],
+      helpEnabled: true,
+      supportEnabled: true,
+      policiesEnabled: true,
+      logoutEnabled: true
+    }
   },
   methods: {
     open () {
       this.$refs.drawer.open()
     },
-    help () {
-      // todo
+    helpHandler () {
+      // TODO
     },
-    exit () {
+    supportHandler () {
+      // TODO
+    },
+    policiesHandler () {
+      // TODO
+    },
+    exitHandler () {
       logout()
     }
+  },
+  beforeCreate () {
+    // load the configuration
+    this.configuration = config.sideNav
   },
   mounted () {
     this.$emit('sideNavReady')
