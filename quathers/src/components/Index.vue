@@ -40,9 +40,6 @@ export default {
     Events.$on('login', () => {
       this.$router.push({name: 'home'})
     })
-    Events.$on('logout', () => {
-      this.$router.push({name: 'login'})
-    })
   }
 }
 </script>
