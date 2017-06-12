@@ -34,6 +34,11 @@ export default {
     return {}
   },
   methods: {
+    connectAppBarNavMenuToSideNav () {
+      this.$refs.app_bar.$on('navMenuClicked', () => {
+        this.$refs.side_nav.open()
+      })
+    },
     onAppBarReady () {
       this.appBarReady = true
       if (this.sideNavReeady) {
@@ -45,11 +50,6 @@ export default {
       if (this.appBarReady) {
         this.connectAppBarNavMenuToSideNav()
       }
-    },
-    connectAppBarNavMenuToSideNav () {
-      this.$refs.app_bar.$on('navMenuClicked', () => {
-        this.$refs.side_nav.open()
-      })
     }
   },
   beforeCreate () {

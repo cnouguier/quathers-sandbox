@@ -27,6 +27,7 @@ export default {
       var clone = Object.assign({}, this.value)
       clone.name = this.search
       this.$emit('input', clone)
+      this.$emit('filterChanged', clone)
     })
   }
 }

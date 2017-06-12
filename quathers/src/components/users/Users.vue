@@ -1,10 +1,5 @@
 <template>
-  <collection 
-    ref="collection" 
-    :service="'users'" 
-    :renderer="'UserItem'"
-    :page-size="5">
-  </collection>
+  <collection :service="'users'"></collection>
 </template>
 
 <script>

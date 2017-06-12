@@ -1,9 +1,5 @@
 <template>
-  <collection 
-    ref="collection" 
-    :service="'organizations'"
-    :page-size="5">
-  </collection>
+  <collection :service="'organizations'"></collection>
 </template>
 
 <script>

@@ -1,6 +1,6 @@
 module.exports = {
   app: {
-    name: 'Quathers'
+    name: 'My App'
   },
   layout: {
     // appBar: 'layout/AppBar',
@@ -27,12 +27,45 @@ module.exports = {
         route: 'organizations'
       },
       {
-        // separator
+        // a separator
       },
       {
         label: 'Logout',
         icon: 'exit_to_app',
         route: 'logout'
+      }
+    ]
+  },
+  users: {
+    // filter: 'collection/Filter',
+    renderer: 'users/UserItem',
+    // nbItemsPerPage: '8',
+    fab: [
+      {
+        icon: 'add',
+        handler: 'addItem'
+      }
+    ]
+  },
+  groups: {
+    // filter: 'collection/Filter',
+    // renderer: 'collection/Item',
+    // nbItemsPerPage: '8',
+    fab: [
+      {
+        icon: 'add',
+        handler: 'addItem'
+      }
+    ]
+  },
+  organizations: {
+    // filter: 'collection/Filter',
+    // renderer: 'collection/Item',
+    // nbItemsPerPage: '8',
+    fab: [
+      {
+        icon: 'add',
+        handler: 'addItem'
       }
     ]
   }

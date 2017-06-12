@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     profile () {
-      // TODO
+      this.$router.push({name: 'profile'})
     }
   },
   mounted () {

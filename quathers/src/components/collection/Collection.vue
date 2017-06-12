@@ -3,38 +3,52 @@
     <!-- 
       Filter section 
     -->
-    <div v-show="filter !== ''">
-      <component ref="filter" :is="filter" v-model="query"></component>
+    <div v-if="hasFilter">
+      <filter v-model="query" @filterChanged="onFilterChanged()" />
     </div>
     <!-- 
       Items section 
     -->
-    <div v-show="itemsCount > 0" class="column justify-center items-center">
+    <div v-if="nbTotalItems > 0" class="column justify-center items-center">
       <div class="full-width">
         <div class="list" v-for="item in items">
-          <component :is="renderer" :item="item"></component>
+          <renderer :item="item" />
         </div>
       </div>
       <div>
-        <q-pagination ref="pagination" v-model="currentPage" :max="pagesCount" style="padding: 18px">
-        </q-pagination>
+        <q-pagination 
+          v-model="currentPage" 
+          :max="nbPages" 
+          style="padding: 18px" 
+          @input="onPageChanged" />
       </div>
     </div>
     <!-- 
-      Actions section 
+      Fab section 
     -->
-    <button v-if="addAction"
+    <q-fab v-if="fab.length > 1"
+      class="absolute-bottom-right primary"
+      style="right: 18px; bottom: 18px"
+      icon="keyboard_arrow_up"
+      direction="up">
+        <q-small-fab v-for="action in fab"
+          class="white"
+          @click.native="someMethod()"
+          :icon="action.icon">
+        </q-small-fab>
+    </q-fab>
+    <button v-else-if="fab.length === 1"
       class="absolute-bottom-right primary circular"
       style="right: 18px; bottom: 18px"
-      v-on:click="createItem()">
-      <i>add</i>
+      @click="createItem()">
+      <i>{{ fab[0].icon }}</i>
     </button>
   </div>
 </template>
 
 <script>
-import { Dialog } from 'quasar'
-// import components from 'src/components'
+import { loadComponent } from 'src/utils.js'
+import config from 'src/configuration.js'
 import api from 'src/api'
 
 export default {
@@ -43,114 +57,77 @@ export default {
     service: {
       type: String,
       required: true
-    },
-    renderer: {
-      type: String,
-      default: 'defaultRenderer'
-    },
-    filter: {
-      type: String,
-      default: 'defaultFilter'
-    },
-    addAction: {
-      type: Boolean,
-      default: true
-    },
-    pageSize: {
-      type: Number,
-      default: 0
     }
   },
   data () {
     return {
+      query: {},
       items: [],
-      itemsCount: 0,
-      itemsPerPage: 0,
+      nbTotalItems: 0,
+      nbItemsPerPage: 8,
       currentPage: 1,
-      query: {
-      }
+      fab: []
     }
   },
   computed: {
-    pagesCount () {
-      return Math.ceil(this.$data.itemsCount / this.$data.itemsPerPage)
+    nbPages () {
+      return Math.ceil(this.$data.nbTotalItems / this.$data.nbItemsPerPage)
+    },
+    hasFilter () {
+      return this.filter !== ''
     }
   },
   methods: {
-    readItems () {
-      // overlaord the numbero of items to be loaded
-      if (this.$data.itemsPerPage > 0) {
-        this.query.$limit = this.$data.itemsPerPage
-        this.query.$skip = (this.$data.currentPage - 1) * this.$data.itemsPerPage
+    updateItems () {
+      // Sets the number of items to be loaded
+      if (this.$data.nbItemsPerPage > 0) {
+        this.query.$limit = this.$data.nbItemsPerPage
+        this.query.$skip = (this.$data.currentPage - 1) * this.$data.nbItemsPerPage
       }
-      // find the desires items
+      // find the desire items
       api.service(this.service).find({
         query: this.query
       })
       .then((response) => {
         this.$data.items = response.data
-        this.$data.itemsCount = response.total
-        if (this.pageSize === 0) {
-          this.$data.itemsPerPage = response.limit
-        }
+        this.$data.nbTotalItems = response.total
       })
     },
-    createItem () {
-      Dialog.create({
-        buttons: [
-          'Cancel',
-          {
-            label: 'Create',
-            handler () {
-              // this.service().create()
-            }
-          }
-        ]
-      })
+    onFilterChanged () {
+      this.updateItems()
     },
-    updateItem () {
-      // this.$router.push({name: 'user'})
-    },
-    deleteItem (item) {
-      Dialog.create({
-        message: 'Are you sure you want to delete: ' + item + ' ?',
-        buttons: [
-          'Cancel',
-          {
-            label: 'Delete',
-            handler () {
-              api.service(this.service).remove(item._id)
-            }
-          }
-        ]
-      })
+    onPageChanged () {
+      this.updateItems()
     }
   },
   created () {
-    // load the filter
-    if (this.filter !== 'defaultFilter') {
-      this.$options.components[this.filter] = () => System.import('src/components/users/' + this.filter)
-    }
-    else {
-      this.$options.components.defaultFilter = require('src/components/collection/Filter')
-    }
-    // load the renderer
-    if (this.renderer !== 'defaultRenderer') {
-      this.$options.components[this.renderer] = () => System.import('src/components/users/' + this.renderer)
-    }
-    else {
-      this.$options.components.defaultRenderer = require('src/components/collection/Item')
+    // load the configuration
+    if (config[this.service]) {
+      // setup the filter component if needed
+      this.filter = ''
+      if (config[this.service].filter) {
+        this.filter = config[this.service].filter
+        this.$options.components['filter'] = loadComponent(this.filter)
+      }
+      // setup the renderer component
+      if (config[this.service].renderer) {
+        this.$options.components['renderer'] = loadComponent(config[this.service].renderer)
+      }
+      else {
+        this.$options.components['renderer'] = loadComponent('collection/Item')
+      }
+      // setup the number of items per page
+      if (config[this.service].nbItemsPerPage) {
+        this.$data.nbItemsPerPage = config[this.service].nbItemsPerPage
+      }
+      // setup the fab
+      if (config[this.service].fab) {
+        this.$data.fab = config[this.service].fab
+      }
     }
   },
   mounted () {
-    this.$refs.filter.$on('input', () => {
-      this.readItems()
-    })
-    this.$refs.pagination.$on('input', () => {
-      this.readItems()
-    })
-    this.$data.itemsPerPage = this.pageSize
-    this.readItems()
+    this.updateItems()
   }
 }
 </script>
