@@ -31,7 +31,7 @@
       style="right: 18px; bottom: 18px"
       icon="keyboard_arrow_up"
       direction="up">
-        <q-small-fab v-for="action in fab"
+        <q-small-fab v-for="action in fab" :key="action.id"
           class="white"
           @click.native="someMethod()"
           :icon="action.icon">
@@ -48,6 +48,7 @@
 
 <script>
 import { loadComponent } from 'src/utils.js'
+import { mixinStore } from 'src/mixins'
 import config from 'src/configuration.js'
 import api from 'src/api'
 
@@ -66,6 +67,7 @@ export default {
       nbTotalItems: 0,
       nbItemsPerPage: 8,
       currentPage: 1,
+      actions: [],
       fab: []
     }
   },
@@ -77,6 +79,7 @@ export default {
       return this.filter !== ''
     }
   },
+  mixins: [ mixinStore.get('createItem') ],
   methods: {
     updateItems () {
       // Sets the number of items to be loaded
@@ -128,6 +131,7 @@ export default {
   },
   mounted () {
     this.updateItems()
+    console.log(this.$options)
   }
 }
 </script>
