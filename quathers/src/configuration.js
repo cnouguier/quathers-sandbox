@@ -24,18 +24,18 @@ module.exports = {
     // filter: 'collection/Filter',
     renderer: 'users/UserItem',
     // nbItemsPerPage: '8',
-    mixins: [ 'collectionBase', 'createItem', 'deleteItem', 'editItem' ]
+    mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   },
   groups: {
     // filter: 'collection/Filter',
     // renderer: 'collection/Item',
     // nbItemsPerPage: '8',
-    mixins: [ 'collectionBase', 'createItem', 'deleteItem', 'editItem' ]
+    mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   },
   organizations: {
     // filter: 'collection/Filter',
     // renderer: 'collection/Item',
     // nbItemsPerPage: '8',
-    mixins: [ 'collectionBase', 'createItem', 'deleteItem', 'editItem' ]
+    mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   }
 }
