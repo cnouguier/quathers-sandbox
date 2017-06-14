@@ -15,12 +15,7 @@ let collectionBaseMixin = {
     onActionTriggered (action, item) {
       let handler = this[action]
       if (handler !== null) {
-        if (item !== null) {
-          handler(item)
-        }
-        else {
-          handler()
-        }
+        handler(item)
       }
     }
   }

@@ -3,8 +3,7 @@ import mixinStore from '../mixin-store'
 let deleteItemMixin = {
   methods: {
     deleteItem (item) {
-      console.log('delete')
-      console.log(item)
+      console.log('deleteItem from mixin')
     }
   },
   mounted () {
@@ -13,7 +12,6 @@ let deleteItemMixin = {
       handler: 'deleteItem'
     }
     this.itemActions.push(action)
-    console.log('Delete action pushed')
   }
 }
 

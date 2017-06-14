@@ -3,8 +3,7 @@ import mixinStore from '../mixin-store'
 let editItemMixin = {
   methods: {
     editItem (item) {
-      console.log('edit')
-      console.log(item)
+      console.log('editItem from mixin')
     }
   },
   mounted () {
@@ -13,7 +12,6 @@ let editItemMixin = {
       handler: 'editItem'
     }
     this.itemActions.push(action)
-    console.log('Edit action pushed')
   }
 }
 
