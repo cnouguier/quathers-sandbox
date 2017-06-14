@@ -1,9 +1,4 @@
 <template>
-  <!--
-    Setups the  main layout of the application following the guidelines
-    exposed here: https://material.io/guidelines/layout/structure.html#
-    The layout is composed of  3 main components:
-   -->
   <q-layout>
     <!--
       The AppBar

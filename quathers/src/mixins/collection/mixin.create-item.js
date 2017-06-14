@@ -3,14 +3,15 @@ import mixinStore from '../mixin-store'
 let createItemMixin = {
   methods: {
     createItem () {
-      console.log('createItem')
+      console.log('createItem from mixin')
     }
   },
   mounted () {
-    console.log('createItem - mounted')
-    this.$data.fab.push({
-      icon: 'add'
-    })
+    let action = {
+      icon: 'add',
+      handler: 'createItem'
+    }
+    this.floatingActions.push(action)
   }
 }
 

@@ -4,51 +4,46 @@
       Filter section 
     -->
     <div v-if="hasFilter">
-      <filter v-model="query" @filterChanged="onFilterChanged()" />
+      <filter v-model="query" @filterChanged="onFilterChanged" />
     </div>
     <!-- 
       Items section 
     -->
-    <div v-if="nbTotalItems > 0" class="column justify-center items-center">
+    <div v-show="nbTotalItems > 0" class="column justify-center items-center">
       <div class="full-width">
         <div class="list" v-for="item in items">
-          <renderer :item="item" />
+          <renderer :item="item" :actions="itemActions" @actionTrigerred="onActionTriggered"/>
         </div>
       </div>
       <div>
-        <q-pagination 
-          v-model="currentPage" 
-          :max="nbPages" 
-          style="padding: 18px" 
-          @input="onPageChanged" />
+        <q-pagination v-model="currentPage" :max="nbPages" style="padding: 18px" @input="onPageChanged" />
       </div>
     </div>
     <!-- 
       Fab section 
     -->
-    <q-fab v-if="fab.length > 1"
+    <q-fab v-if="floatingActions.length > 1"
       class="absolute-bottom-right primary"
-      style="right: 18px; bottom: 18px"
+      style="right: 24px; bottom: 24px"
       icon="keyboard_arrow_up"
       direction="up">
-        <q-small-fab v-for="action in fab" :key="action.id"
+        <q-small-fab v-for="action in floatingActions" :key="action.id"
           class="white"
-          @click.native="someMethod()"
-          :icon="action.icon">
+          @click.native="onActionTriggered(action.handler, null)"
+          :icon="fab.icon">
         </q-small-fab>
     </q-fab>
-    <button v-else-if="fab.length === 1"
+    <button v-else-if="floatingActions.length === 1"
       class="absolute-bottom-right primary circular"
-      style="right: 18px; bottom: 18px"
-      @click="createItem()">
-      <i>{{ fab[0].icon }}</i>
+      style="right: 24px; bottom: 24px"
+      @click="onActionTriggered(floatingActions[0].handler, null)">
+      <i>{{ floatingActions[0].icon }}</i>
     </button>
   </div>
 </template>
 
 <script>
 import { loadComponent } from 'src/utils.js'
-import { mixinStore } from 'src/mixins'
 import config from 'src/configuration.js'
 import api from 'src/api'
 
@@ -58,6 +53,18 @@ export default {
     service: {
       type: String,
       required: true
+    },
+    itemActions: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    },
+    floatingActions: {
+      type: Array,
+      default: function () {
+        return []
+      }
     }
   },
   data () {
@@ -66,9 +73,7 @@ export default {
       items: [],
       nbTotalItems: 0,
       nbItemsPerPage: 8,
-      currentPage: 1,
-      actions: [],
-      fab: []
+      currentPage: 1
     }
   },
   computed: {
@@ -79,7 +84,6 @@ export default {
       return this.filter !== ''
     }
   },
-  mixins: [ mixinStore.get('createItem') ],
   methods: {
     updateItems () {
       // Sets the number of items to be loaded
@@ -96,11 +100,14 @@ export default {
         this.$data.nbTotalItems = response.total
       })
     },
+    onPageChanged () {
+      this.updateItems()
+    },
     onFilterChanged () {
       this.updateItems()
     },
-    onPageChanged () {
-      this.updateItems()
+    onActionTriggered (handler, item) {
+      this.$emit('actionTriggered', handler, item)
     }
   },
   created () {
@@ -123,15 +130,10 @@ export default {
       if (config[this.service].nbItemsPerPage) {
         this.$data.nbItemsPerPage = config[this.service].nbItemsPerPage
       }
-      // setup the fab
-      if (config[this.service].fab) {
-        this.$data.fab = config[this.service].fab
-      }
     }
   },
   mounted () {
     this.updateItems()
-    console.log(this.$options)
   }
 }
 </script>

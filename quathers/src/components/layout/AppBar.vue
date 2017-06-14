@@ -3,7 +3,6 @@
     <button class="hide-on-drawer-visible" @click="$emit('navMenuClicked')">
       <i>menu</i>
     </button>
-
     <q-toolbar-title :padding="0">
       Quathers
     </q-toolbar-title>

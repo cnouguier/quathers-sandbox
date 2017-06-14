@@ -4,6 +4,16 @@
       <div>{{ item.name }}</div>
       <div>{{ item.description }}</div>
     </div>
+    <i v-if="actions.length > 0" class="item-secondary">  
+    more_vert
+      <q-popover>
+        <div class="list">
+          <div v-for="action in actions" class="item item-link" @click="$emit('actionTrigerred', action.handler, item)">
+            <div class="item-content">{{ action.label }}</div>
+          </div>
+        </div>
+      </q-popover>
+    </i>
   </div>
 </template>
 
@@ -11,7 +21,16 @@
 export default {
   name: 'item',
   props: {
-    item: null
+    item: {
+      type: Object,
+      required: true
+    },
+    actions: {
+      type: Array,
+      default: function () {
+        return []
+      }
+    }
   },
   data () {
     return {

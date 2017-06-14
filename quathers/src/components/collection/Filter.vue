@@ -24,10 +24,10 @@ export default {
     this.$refs.search.$on('input', () => {
       // Never mutate the prop directly
       // See: https://github.com/vuejs/vue/issues/4373
-      var clone = Object.assign({}, this.value)
-      clone.name = this.search
-      this.$emit('input', clone)
-      this.$emit('filterChanged', clone)
+      var filter = Object.assign({}, this.value)
+      filter.name = this.search
+      this.$emit('input', filter)
+      this.$emit('filterChanged', filter)
     })
   }
 }
