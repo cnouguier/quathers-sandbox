@@ -12,11 +12,9 @@ let collectionBaseMixin = {
     }
   },
   methods: {
-    onActionTriggered (service, action, item) {
-      let handler = this[action]
-      if (handler !== null) {
-        handler(service, item)
-      }
+    onActionTriggered (handler, service, item) {
+      let action = this[handler]
+      action.apply(this, [service, item])
     }
   }
 }
