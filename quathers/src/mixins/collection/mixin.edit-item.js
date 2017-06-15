@@ -7,8 +7,9 @@ let editItemMixin = {
     }
   },
   mounted () {
-    this.itemActions.push({
+    this.actions.push({
       label: 'Edit',
+      scope: 'item',
       handler: 'editItem'
     })
   }

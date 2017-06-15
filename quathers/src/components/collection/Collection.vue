@@ -12,7 +12,7 @@
     <div v-show="nbTotalItems > 0" class="column justify-center items-center">
       <div class="full-width">
         <div class="list" v-for="item in items">
-          <renderer :item="item" :actions="itemActions" @actionTrigerred="onActionTriggered"/>
+          <renderer :item="item" :actions="filterActions('item')" @actionTrigerred="onActionTriggered"/>
         </div>
       </div>
       <div>
@@ -22,23 +22,7 @@
     <!-- 
       Fab section 
     -->
-    <q-fab v-if="floatingActions.length > 1"
-      class="absolute-bottom-right primary"
-      style="right: 24px; bottom: 24px"
-      icon="keyboard_arrow_up"
-      direction="up">
-        <q-small-fab v-for="action in floatingActions" :key="action.id"
-          class="white"
-          @click.native="onActionTriggered(action.handler, null)"
-          :icon="fab.icon">
-        </q-small-fab>
-    </q-fab>
-    <button v-else-if="floatingActions.length === 1"
-      class="absolute-bottom-right primary circular"
-      style="right: 24px; bottom: 24px"
-      @click="onActionTriggered(floatingActions[0].handler, null)">
-      <i>{{ floatingActions[0].icon }}</i>
-    </button>
+    <fab :actions="filterActions()" @actionTrigerred="onActionTriggered" />
   </div>
 </template>
 
@@ -54,13 +38,7 @@ export default {
       type: String,
       required: true
     },
-    itemActions: {
-      type: Array,
-      default: function () {
-        return []
-      }
-    },
-    floatingActions: {
+    actions: {
       type: Array,
       default: function () {
         return []
@@ -106,6 +84,11 @@ export default {
     onFilterChanged () {
       this.updateItems()
     },
+    filterActions (type = '') {
+      return this.actions.filter(function (action) {
+        return action.scope === type
+      })
+    },
     onActionTriggered (handler, item) {
       this.$emit('actionTriggered', handler, this.service, item)
     }
@@ -126,6 +109,13 @@ export default {
       else {
         this.$options.components['renderer'] = loadComponent('collection/Item')
       }
+      // setup the fab component
+      if (config[this.service].fab) {
+        this.$options.components['fab'] = loadComponent(config[this.service].fab)
+      }
+      else {
+        this.$options.components['fab'] = loadComponent('collection/Fab')
+      }
       // setup the number of items per page
       if (config[this.service].nbItemsPerPage) {
         this.$data.nbItemsPerPage = config[this.service].nbItemsPerPage
@@ -133,6 +123,7 @@ export default {
     }
   },
   mounted () {
+    // populate the vue
     this.updateItems()
   }
 }

@@ -8,8 +8,7 @@ let collectionBaseMixin = {
   },
   data () {
     return {
-      floatingActions: [],
-      itemActions: []
+      actions: []
     }
   },
   methods: {

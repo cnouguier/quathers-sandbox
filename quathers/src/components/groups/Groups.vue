@@ -1,8 +1,7 @@
 <template>
   <collection 
   :service="'groups'" 
-  :floatingActions="floatingActions" 
-  :itemActions="itemActions"
+  :actions="actions" 
   @actionTriggered="onActionTriggered" />
 </template>
 

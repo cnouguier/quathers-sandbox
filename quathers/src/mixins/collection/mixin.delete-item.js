@@ -7,8 +7,9 @@ let deleteItemMixin = {
     }
   },
   mounted () {
-    this.itemActions.push({
+    this.actions.push({
       label: 'Delete',
+      scope: 'item',
       handler: 'deleteItem'
     })
   }

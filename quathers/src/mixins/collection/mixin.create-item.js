@@ -7,8 +7,9 @@ let createItemMixin = {
     }
   },
   mounted () {
-    this.floatingActions.push({
+    this.actions.push({
       icon: 'add',
+      scope: '',
       handler: 'createItem'
     })
   }
