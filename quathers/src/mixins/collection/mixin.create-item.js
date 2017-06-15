@@ -7,11 +7,10 @@ let createItemMixin = {
     }
   },
   mounted () {
-    let action = {
+    this.floatingActions.push({
       icon: 'add',
       handler: 'createItem'
-    }
-    this.floatingActions.push(action)
+    })
   }
 }
 

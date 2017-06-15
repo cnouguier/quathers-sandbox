@@ -16,6 +16,7 @@
     "feathers-authentication-client": "^0.3.2",
     "feathers-hooks": "^2.0.1",
     "feathers-socketio": "^1.6.0",
+    "loglevel": "^1.4.1",
     "material-design-icons": "^3.0.1",
     "moment": "^2.15.0",
     "quasar-framework": "^0.13.4",

@@ -7,11 +7,10 @@ let deleteItemMixin = {
     }
   },
   mounted () {
-    let action = {
+    this.itemActions.push({
       label: 'Delete',
       handler: 'deleteItem'
-    }
-    this.itemActions.push(action)
+    })
   }
 }
 

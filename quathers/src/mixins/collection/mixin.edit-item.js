@@ -7,11 +7,10 @@ let editItemMixin = {
     }
   },
   mounted () {
-    let action = {
+    this.itemActions.push({
       label: 'Edit',
       handler: 'editItem'
-    }
-    this.itemActions.push(action)
+    })
   }
 }
 
