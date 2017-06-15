@@ -2,8 +2,8 @@ import mixinStore from '../mixin-store'
 
 let editItemMixin = {
   methods: {
-    editItem (item) {
-      console.log('editItem from mixin')
+    editItem (service, item) {
+      console.log(service + ': editItem from mixin')
     }
   },
   mounted () {

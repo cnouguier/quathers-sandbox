@@ -107,7 +107,7 @@ export default {
       this.updateItems()
     },
     onActionTriggered (handler, item) {
-      this.$emit('actionTriggered', handler, item)
+      this.$emit('actionTriggered', this.service, handler, item)
     }
   },
   created () {

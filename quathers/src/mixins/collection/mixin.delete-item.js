@@ -2,8 +2,8 @@ import mixinStore from '../mixin-store'
 
 let deleteItemMixin = {
   methods: {
-    deleteItem (item) {
-      console.log('deleteItem from mixin')
+    deleteItem (service, item) {
+      console.log(service + ': deleteItem from mixin')
     }
   },
   mounted () {
