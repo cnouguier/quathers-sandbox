@@ -4,6 +4,9 @@ export default {
   userStates: {
     user: null
   },
+  editorStates: {
+    target: null
+  },
   getUser () {
     return this.userStates.user
   },

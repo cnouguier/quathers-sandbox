@@ -72,9 +72,11 @@ export default {
       }
       // find the desire items
       this.serviceApi.find({
+        rx: {
+          listStrategy: 'always'
+        },
         query: this.query
-      })
-      .then((response) => {
+      }).subscribe(response => {
         this.$data.items = response.data
         this.$data.nbTotalItems = response.total
       })
@@ -96,7 +98,7 @@ export default {
   },
   created () {
     this.serviceApi = api.service(this.service)
-    if (serviceApi) {
+    if (this.serviceApi) {
       // get the configuration section assigned to the service
       let serviceConf = config[this.service]
       // apply the configuration to this collection
@@ -127,9 +129,6 @@ export default {
   mounted () {
     // populate the vue
     this.updateItems()
-    this.serviceApi.on('removed', message => this.updateItems())
-    this.serviceApi.on('created', message => this.updateItems())
-    this.serviceApi.on('updated', message => this.updateItems())
   }
 }
 </script>

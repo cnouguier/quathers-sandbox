@@ -15,7 +15,7 @@ let collectionBaseMixin = {
     onActionTriggered (handler, service, item) {
       let action = this[handler]
       if (typeof action === 'function') {
-        action.apply(this, [service, item])
+        action.call(this, service, item)
       }
       else {
         logger.warn('onActionTriggered: invalid handler')

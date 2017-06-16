@@ -34,7 +34,8 @@ export default {
   },
   methods: {
     profile () {
-      this.$router.push({name: 'profile'})
+      let id = this.user._id
+      this.$router.push({name: 'editor', params: { objectId: id }})
     }
   },
   mounted () {

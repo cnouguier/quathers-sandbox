@@ -65,9 +65,9 @@ export default new VueRouter({
           component: load('users/Users')
         },
         {
-          path: '/user',
-          name: 'user',
-          component: load('users/User')
+          path: '/editor/:objectId',
+          name: 'editor',
+          component: load('editor/Editor')
         },
         {
           path: '/groups',
