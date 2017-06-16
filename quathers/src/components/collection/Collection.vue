@@ -71,7 +71,7 @@ export default {
         this.query.$skip = (this.$data.currentPage - 1) * this.$data.nbItemsPerPage
       }
       // find the desire items
-      api.service(this.service).find({
+      this.serviceApi.find({
         query: this.query
       })
       .then((response) => {
@@ -95,31 +95,41 @@ export default {
     }
   },
   created () {
-    let serviceConf = config[this.service]
-    // load the configuration
-    if (serviceConf) {
-      // setup the filter component if needed
-      this.filter = ''
-      if (serviceConf.filter) {
-        this.filter = serviceConf.filter
-        this.$options.components['filter'] = loadComponent(this.filter)
+    this.serviceApi = api.service(this.service)
+    if (serviceApi) {
+      // get the configuration section assigned to the service
+      let serviceConf = config[this.service]
+      // apply the configuration to this collection
+      if (serviceConf) {
+        // setup the filter component if needed
+        this.filter = ''
+        if (serviceConf.filter) {
+          this.filter = serviceConf.filter
+          this.$options.components['filter'] = loadComponent(this.filter)
+        }
+        // setup the renderer component
+        this.$options.components['renderer'] = loadComponent(serviceConf.renderer ? serviceConf.renderer : 'collection/Item')
+        // setup the fab component
+        this.$options.components['fab'] = loadComponent(serviceConf.fab ? serviceConf.fab : 'collection/Fab')
+        // setup the number of items per page
+        if (serviceConf.nbItemsPerPage) {
+          this.$data.nbItemsPerPage = serviceConf.nbItemsPerPage
+        }
       }
-      // setup the renderer component
-      this.$options.components['renderer'] = loadComponent(serviceConf.renderer ? serviceConf.renderer : 'collection/Item')
-      // setup the fab component
-      this.$options.components['fab'] = loadComponent(serviceConf.fab ? serviceConf.fab : 'collection/Fab')
-      // setup the number of items per page
-      if (serviceConf.nbItemsPerPage) {
-        this.$data.nbItemsPerPage = serviceConf.nbItemsPerPage
+      else {
+        logger.error('created(): ' + this.service + ' configuration section not found.')
       }
     }
     else {
-      logger.error('created(): ' + this.service + ' configuration section not found.')
+      logger.error('created(): cannot find service ' + this.service)
     }
   },
   mounted () {
     // populate the vue
     this.updateItems()
+    this.serviceApi.on('removed', message => this.updateItems())
+    this.serviceApi.on('created', message => this.updateItems())
+    this.serviceApi.on('updated', message => this.updateItems())
   }
 }
 </script>

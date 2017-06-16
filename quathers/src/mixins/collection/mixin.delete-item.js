@@ -1,5 +1,6 @@
 import mixinStore from '../mixin-store'
 import { Dialog } from 'quasar'
+import api from 'src/api'
 
 let deleteItemMixin = {
   methods: {
@@ -12,7 +13,8 @@ let deleteItemMixin = {
           {
             label: 'Delete',
             handler () {
-              console.log('Not implemented')
+              // delete the required item
+              api.service(service).remove(item._id)
             }
           }
         ]
