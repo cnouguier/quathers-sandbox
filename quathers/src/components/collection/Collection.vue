@@ -27,6 +27,7 @@
 </template>
 
 <script>
+import logger from 'loglevel'
 import { loadComponent } from 'src/utils.js'
 import config from 'src/configuration.js'
 import api from 'src/api'
@@ -94,32 +95,26 @@ export default {
     }
   },
   created () {
+    let serviceConf = config[this.service]
     // load the configuration
-    if (config[this.service]) {
+    if (serviceConf) {
       // setup the filter component if needed
       this.filter = ''
-      if (config[this.service].filter) {
-        this.filter = config[this.service].filter
+      if (serviceConf.filter) {
+        this.filter = serviceConf.filter
         this.$options.components['filter'] = loadComponent(this.filter)
       }
       // setup the renderer component
-      if (config[this.service].renderer) {
-        this.$options.components['renderer'] = loadComponent(config[this.service].renderer)
-      }
-      else {
-        this.$options.components['renderer'] = loadComponent('collection/Item')
-      }
+      this.$options.components['renderer'] = loadComponent(serviceConf.renderer ? serviceConf.renderer : 'collection/Item')
       // setup the fab component
-      if (config[this.service].fab) {
-        this.$options.components['fab'] = loadComponent(config[this.service].fab)
-      }
-      else {
-        this.$options.components['fab'] = loadComponent('collection/Fab')
-      }
+      this.$options.components['fab'] = loadComponent(serviceConf.fab ? serviceConf.fab : 'collection/Fab')
       // setup the number of items per page
-      if (config[this.service].nbItemsPerPage) {
-        this.$data.nbItemsPerPage = config[this.service].nbItemsPerPage
+      if (serviceConf.nbItemsPerPage) {
+        this.$data.nbItemsPerPage = serviceConf.nbItemsPerPage
       }
+    }
+    else {
+      logger.error('created(): ' + this.service + ' configuration section not found.')
     }
   },
   mounted () {
