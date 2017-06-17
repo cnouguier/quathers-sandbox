@@ -1,7 +1,7 @@
 <template>
   <div>
   <!--component :is="$route.prarams.formType"></component-->
-   {{ target.firstName }}
+   {{ target.name }}
   </div>
 </template>
 
@@ -9,7 +9,6 @@
 import store from 'src/store.js'
 
 export default {
-  props: [ 'objectId' ],
   data () {
     return {
     }

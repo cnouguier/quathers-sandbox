@@ -68,38 +68,32 @@ export default new VueRouter({
         {
           path: '/users',
           name: 'users',
-          component: load('users/Users'),
-          children: [
-            {
-              path: '/users/form',
-              name: 'users-form',
-              component: load('form/Form')
-            }
-          ]
+          component: load('users/Users')
+        },
+        {
+          path: '/users/form',
+          name: 'users-form',
+          component: load('form/Form')
         },
         {
           path: '/groups',
           name: 'groups',
-          component: load('groups/Groups'),
-          children: [
-            {
-              path: 'form',
-              name: 'groups-form',
-              component: load('form/Form')
-            }
-          ]
+          component: load('groups/Groups')
+        },
+        {
+          path: '/groups/form',
+          name: 'groups-form',
+          component: load('form/Form')
         },
         {
           path: '/organizations',
           name: 'organizations',
-          component: load('organizations/Organizations'),
-          children: [
-            {
-              path: 'form',
-              name: 'organizations-form',
-              component: load('form/Form')
-            }
-          ]
+          component: load('organizations/Organizations')
+        },
+        {
+          path: '/organizations/form',
+          name: 'organizations-form',
+          component: load('form/Form')
         }
       ]
     },

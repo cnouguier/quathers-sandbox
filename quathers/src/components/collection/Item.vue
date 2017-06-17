@@ -1,8 +1,8 @@
 <template>
   <div class="item two-lines">
     <div class="item-content has-secondary">
-      <div>{{ item.name }}</div>
-      <div>{{ item.description }}</div>
+      <div>{{ firstLine }}</div>
+      <div>{{ secondLine }}</div>
     </div>
     <i v-if="actions.length > 0" class="item-secondary">  
     more_vert
@@ -25,6 +25,15 @@ export default {
       type: Object,
       required: true
     },
+    formatter: {
+      type: Object,
+      default: function () {
+        return {
+          firstLine: ['name'],
+          secondLine: ['description']
+        }
+      }
+    },
     actions: {
       type: Array,
       default: function () {
@@ -34,6 +43,23 @@ export default {
   },
   data () {
     return {
+    }
+  },
+  computed: {
+    firstLine () {
+      return this.text(this.formatter.firstLine)
+    },
+    secondLine () {
+      return this.text(this.formatter.secondLine)
+    }
+  },
+  methods: {
+    text (properties) {
+      var result = ''
+      for (var i = 0; i < properties.length; i++) {
+        result += this.item[properties[i]] + ' '
+      }
+      return result
     }
   }
 }

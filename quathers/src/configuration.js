@@ -22,7 +22,11 @@ module.exports = {
   },
   users: {
     // filter: 'collection/Filter',
-    renderer: 'users/UserItem',
+    // renderer: 'users/UserItem',
+    formatter: {
+      firstLine: ['firstName', 'lastName'],
+      secondLine: ['email']
+    },
     // nbItemsPerPage: '8',
     mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   },

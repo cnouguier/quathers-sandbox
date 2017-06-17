@@ -1,8 +1,8 @@
 <template>
   <collection 
   :service="'users'"
-  :actions="actions"
-  @triggered="onActionTriggered" />
+  :actions="actions" 
+  @actionTriggered="onActionTriggered" />
 </template>
 
 <script>
