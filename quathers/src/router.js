@@ -60,14 +60,22 @@ export default new VueRouter({
           }
         },
         {
-          path: '/users',
-          name: 'users',
-          component: load('users/Users')
+          path: '/profile',
+          name: 'profile',
+          component: load('form/Form'),
+          props: true
         },
         {
-          path: '/editor/:objectId',
-          name: 'editor',
-          component: load('editor/Editor')
+          path: '/users',
+          name: 'users',
+          component: load('users/Users'),
+          children: [
+            {
+              path: '/users/form',
+              name: 'users-form',
+              component: load('form/Form')
+            }
+          ]
         },
         {
           path: '/groups',
@@ -75,9 +83,9 @@ export default new VueRouter({
           component: load('groups/Groups'),
           children: [
             {
-              path: '/group',
-              name: 'group',
-              component: load('groups/Group')
+              path: 'form',
+              name: 'groups-form',
+              component: load('form/Form')
             }
           ]
         },
@@ -87,9 +95,9 @@ export default new VueRouter({
           component: load('organizations/Organizations'),
           children: [
             {
-              path: '/organization',
-              name: 'organization',
-              component: load('organizations/organization')
+              path: 'form',
+              name: 'organizations-form',
+              component: load('form/Form')
             }
           ]
         }

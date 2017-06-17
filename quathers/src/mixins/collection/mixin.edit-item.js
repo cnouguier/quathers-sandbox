@@ -1,9 +1,13 @@
 import mixinStore from '../mixin-store'
+import store from 'src/store'
 
 let editItemMixin = {
   methods: {
     editItem (service, item) {
-      console.log(service + ': editItem from mixin')
+      store.formStates.target = item
+      let routeName = service + '-form'
+      console.log(routeName)
+      this.$router.push({name: routeName})
     }
   },
   mounted () {

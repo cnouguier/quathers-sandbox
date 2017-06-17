@@ -9,7 +9,7 @@
     -->
     <div v-for="link in links">
       <div v-if="link.label">
-        <q-drawer-link :icon="link.icon" :to="link.route">{{ link.label }}</q-drawer-link>
+        <q-drawer-link :icon="link.icon" :to="{name: link.route}">{{ link.label }}</q-drawer-link>
       </div>
       <div v-else>
         <hr>

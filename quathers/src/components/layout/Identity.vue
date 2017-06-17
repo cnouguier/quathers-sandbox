@@ -34,8 +34,8 @@ export default {
   },
   methods: {
     profile () {
-      let id = this.user._id
-      this.$router.push({name: 'editor', params: { objectId: id }})
+      store.formStates.target = this.user
+      this.$router.push({name: 'profile'})
     }
   },
   mounted () {

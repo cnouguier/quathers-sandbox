@@ -1,21 +1,22 @@
 <template>
-  <h1>
-    {{ target }}
-  </h1>
+  <div>
+  <!--component :is="$route.prarams.formType"></component-->
+   {{ target.firstName }}
+  </div>
 </template>
 
 <script>
 import store from 'src/store.js'
 
 export default {
-  props: [ 'objid' ],
+  props: [ 'objectId' ],
   data () {
     return {
     }
   },
   computed: {
     target () {
-      return store.editorStates.target
+      return store.formStates.target
     }
   }
 }

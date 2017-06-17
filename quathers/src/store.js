@@ -4,7 +4,7 @@ export default {
   userStates: {
     user: null
   },
-  editorStates: {
+  formStates: {
     target: null
   },
   getUser () {
