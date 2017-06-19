@@ -5,9 +5,11 @@ import store from 'src/store.js'
 function restoreUser (accessToken) {
   return api.passport.verifyJWT(accessToken)
   .then(payload => {
+    console.log(payload)
     return api.service('users').get(payload.userId)
   })
   .then(user => {
+    console.log(user)
     store.setUser(user)
     Events.$emit('login')
   })
@@ -36,6 +38,7 @@ export function login (email, password) {
     password: password
   })
   .then(response => {
+    console.log(response.accessToken)
     return restoreUser(response.accessToken)
   })
 }

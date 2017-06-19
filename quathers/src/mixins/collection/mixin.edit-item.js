@@ -13,6 +13,7 @@ let editItemMixin = {
   mounted () {
     this.actions.push({
       label: 'Edit',
+      icon: 'create',
       scope: 'item',
       handler: 'editItem'
     })

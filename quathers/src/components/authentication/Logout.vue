@@ -8,9 +8,6 @@ import { logout } from 'src/authentication'
 
 export default {
   name: 'logout',
-  components: {
-    Screen
-  },
   data () {
     return {
     }

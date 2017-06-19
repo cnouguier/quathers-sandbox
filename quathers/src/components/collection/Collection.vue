@@ -9,10 +9,10 @@
     <!-- 
       Items section 
     -->
-    <div v-show="nbTotalItems > 0" class="column justify-center items-center">
+    <div v-show="nbTotalItems > 0" class="column justify-center items-center content-center">
       <div class="full-width">
-        <div class="list" v-for="item in items">
-          <renderer :item="item" :formatter="formatter" :actions="filterActions('item')" @actionTrigerred="onActionTriggered"/>
+        <div class="list no-border" v-for="item in items">
+          <renderer :item="item" :actions="filterActions('item')" @actionTrigerred="onActionTriggered" />
         </div>
       </div>
       <div>
@@ -110,17 +110,7 @@ export default {
           this.$options.components['filter'] = loadComponent(this.filter)
         }
         // setup the renderer component
-        this.$options.components['renderer'] = loadComponent(serviceConf.renderer ? serviceConf.renderer : 'collection/Item')
-        // setup the formatter
-        if (serviceConf.formatter) {
-          this.formatter = serviceConf.formatter
-        }
-        else {
-          this.formatter = {
-            firstLine: ['name'],
-            secondLine: ['description']
-          }
-        }
+        this.$options.components['renderer'] = loadComponent(serviceConf.renderer ? serviceConf.renderer : 'collection/ListItem')
         // setup the fab component
         this.$options.components['fab'] = loadComponent(serviceConf.fab ? serviceConf.fab : 'collection/Fab')
         // setup the number of items per page

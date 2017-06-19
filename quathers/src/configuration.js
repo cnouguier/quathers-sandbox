@@ -22,23 +22,19 @@ module.exports = {
   },
   users: {
     // filter: 'collection/Filter',
-    // renderer: 'users/UserItem',
-    formatter: {
-      firstLine: ['firstName', 'lastName'],
-      secondLine: ['email']
-    },
+    renderer: 'users/UserCardItem',
     // nbItemsPerPage: '8',
     mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   },
   groups: {
     // filter: 'collection/Filter',
-    // renderer: 'collection/Item',
+    renderer: 'collection/CardItem',
     // nbItemsPerPage: '8',
     mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   },
   organizations: {
     // filter: 'collection/Filter',
-    // renderer: 'collection/Item',
+    // renderer: 'collection/ListItem',
     // nbItemsPerPage: '8',
     mixins: [ 'collectionBase', 'createItem', 'editItem', 'deleteItem' ]
   }

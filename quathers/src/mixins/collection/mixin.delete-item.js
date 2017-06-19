@@ -24,6 +24,7 @@ let deleteItemMixin = {
   mounted () {
     this.actions.push({
       label: 'Delete',
+      icon: 'delete',
       scope: 'item',
       handler: 'deleteItem'
     })
