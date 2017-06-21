@@ -17,6 +17,9 @@ export default {
   components: {
     ListItem
   },
+  data () {
+    return {}
+  },
   mixins: [ itemBaseMixin ]
 }
 </script>

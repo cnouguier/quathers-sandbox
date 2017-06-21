@@ -1,43 +1,54 @@
 <template>
   
-  <div class="item two-lines">
+  <q-item>
     <!--
       Icon section
     -->
-    <slot name="icon">
+    <slot name="avatar">
     </slot>
     <!--
       Text section
     -->
-    <div class="item-content has-secondary">
-      <slot name="primary-text">
-        <div>{{ item.name }}</div>
+    <q-item-main>
+      <slot name="label">
+        <q-item-tile label>{{ item.name }}</q-item-tile>
       </slot>
-      <slot name="secondary-text">
-        <div>{{ item.description }}</div>
+      <slot name="sublabel">
+        <q-item-tile sublabel>{{ item.description }}</q-item-tile>
       </slot>
-    </div>
+    </q-item-main>
     <!--
       Actions section
     -->
     <slot name="actions">
-      <i slot="actions" v-if="actions.length > 1" class="item-secondary">  
-        more_vert
+      <q-item-side v-if="actions.length > 1" right icon="more_vert">
         <q-popover>
-          <div class="list">
-            <div v-for="action in actions" class="item item-link" @click="$emit('actionTrigerred', action.handler, item)">
-              <div class="item-content">{{ action.label }}</div>
-            </div>
-          </div>
+          <q-list link>
+            <q-item v-for="action in actions" :key="action">
+              <q-item-main :label="action.label" @click="$emit('actionTrigerred', action.handler, item)" />
+            </q-item>
+          </q-list>
         </q-popover>
-      </i>
+      </q-item-side>
     </slot>
-  </div>
+  </q-item>
 </template>
 
 <script>
+import { QList, QItem, QItemSide, QItemMain, QItemTile, QBtn, QIcon, QPopover } from 'quasar'
+
 export default {
   name: 'list-item',
+  components: {
+    QList,
+    QItem,
+    QItemSide,
+    QItemMain,
+    QItemTile,
+    QBtn,
+    QIcon,
+    QPopover
+  },
   props: {
     item: {
       type: Object,

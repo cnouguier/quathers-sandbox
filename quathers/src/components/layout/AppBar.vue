@@ -1,17 +1,23 @@
 <template>
-  <div class="toolbar">
-    <button class="hide-on-drawer-visible" @click="$emit('navMenuClicked')">
-      <i>menu</i>
-    </button>
-    <q-toolbar-title :padding="0">
+  <q-toolbar>
+    <q-btn flat icon="menu" @click="$emit('menuClicked')" />
+    <q-toolbar-title>
       Quathers
+      <span slot="subtitle">Powered by Kaelia</span>
     </q-toolbar-title>
-  </div>
+  </q-toolbar>
 </template>
 
 <script>
+import { QToolbar, QToolbarTitle, QBtn } from 'quasar'
+
 export default {
   name: 'app-bar',
+  components: {
+    QToolbar,
+    QToolbarTitle,
+    QBtn
+  },
   data () {
     return {
     }

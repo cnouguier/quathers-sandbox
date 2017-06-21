@@ -3,30 +3,42 @@
      <!-- 
       Render an expandable fab if multiple actions are provided
      -->
-    <q-fab v-if="actions.length > 1"
-      class="absolute-bottom-right primary fab-margin"
-      icon="keyboard_arrow_up"
-      direction="up">
-        <q-small-fab v-for="action in actions" :key="action.id"
-          class="white"
-          @click.native="$emit('actionTrigerred', action.handler)"
-          :icon="fab.icon">
-        </q-small-fab>
+    <q-fab v-if="actions.length > 1" 
+      icon="keyboard_arrow_up" 
+      direction ="up" 
+      color="primary">
+        <q-fab-action 
+          v-for="action in actions" 
+          :key="action.id"
+          color="secondary"
+          @click="$emit('actionTrigerred', action.handler)"
+          :icon="action.icon">
+        </q-fab-action>
     </q-fab>
     <!-- 
       Render a non expandable fab if a single action is provided
      -->
-    <button v-else-if="actions.length === 1"
-      class="absolute-bottom-right primary circular fab-margin"
-      @click="$emit('actionTrigerred', actions[0].handler)">
-      <i>{{ actions[0].icon }}</i>
-    </button>
+    <q-btn v-else-if="actions.length === 1" round 
+      color="primary"
+      class="fixed"
+      @click="$emit('actionTrigerred', actions[0].handler)"
+      style="right: 18px; bottom: 18px">
+      <q-icon :name="actions[0].icon" />
+    </q-btn>
   </div>
 </template>
 
 <script>
+import { QBtn, QIcon, QFab, QFabAction } from 'quasar'
+
 export default {
   name: 'fab',
+  components: {
+    QBtn,
+    QIcon,
+    QFab,
+    QFabAction
+  },
   props: {
     actions: {
       type: Array,
@@ -41,9 +53,3 @@ export default {
   }
 }
 </script>
-
-<style lang="styl">
-.fab-margin
-  right 24px 
-  bottom 24px
-</style>

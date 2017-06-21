@@ -1,40 +1,49 @@
 <template>
-  <q-drawer ref="drawer">
+  <div>
     <!--
-      User's identity and related actions
+      User's identity
     --> 
     <identity />
     <!--
-      Links
+      Links area
     -->
-    <div v-for="link in links">
-      <div v-if="link.label">
-        <q-drawer-link :icon="link.icon" :to="{name: link.route}">{{ link.label }}</q-drawer-link>
-      </div>
-      <div v-else>
-        <hr>
-      </div>
-    </div>
-  </q-drawer>
+    <q-list highlight>
+      <template v-for="link in links">
+        <!-- link -->
+        <q-side-link v-if="link.label" 
+          item
+          :to="{name: link.route}"
+          replace
+          >
+            <q-item-side :icon="link.icon" />
+            <q-item-main :label="link.label" />
+        </q-side-link>
+        <!-- separator -->
+        <q-item-separator v-else />
+      </template>
+    </q-list>
+  </div>
 </template>
 
 <script>
-import config from 'src/configuration.js'
+import { QList, QItem, QItemSide, QItemMain, QSideLink, QItemSeparator } from 'quasar'
 import { loadComponent } from 'src/utils.js'
+import config from 'src/configuration.js'
 
 export default {
   name: 'side-nav',
   components: {
+    QList,
+    QItem,
+    QItemSide,
+    QItemMain,
+    QSideLink,
+    QItemSeparator,
     'identity': loadComponent(config.sideNav.identity ? config.sideNav.identity : 'layout/Identity')
   },
   data () {
     return {
       links: []
-    }
-  },
-  methods: {
-    open () {
-      this.$refs.drawer.open()
     }
   },
   mounted () {

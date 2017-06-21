@@ -1,7 +1,7 @@
 <template>
   <div>
   <!--component :is="$route.prarams.formType"></component-->
-   {{ target.name }}
+   <h1>Form</h1>
   </div>
 </template>
 

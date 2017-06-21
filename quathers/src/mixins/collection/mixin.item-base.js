@@ -14,9 +14,6 @@ let itemBaseMixin = {
       }
     }
   },
-  data () {
-    return {}
-  },
   methods: {
     onActionTriggered (handler, item) {
       logger.debug('onActionTrigger: ' + handler)

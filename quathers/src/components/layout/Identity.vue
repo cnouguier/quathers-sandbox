@@ -1,17 +1,17 @@
 <template>
-  <div class="column justify-center bg-dark text-light" style="padding:18px">
-    <div class="self-center">
-      <img :src="user.avatar" style="border-radius:50%" width="96px" height="96px">
+  <div class="column bg-dark text-light" style="padding: 18px">
+    <div class="row justify-center">
+      <div class="col-auto" style="padding: 8px">
+        <img :src="user.avatar" style="border-radius:50%" width="96px" height="96px">
+      </div>
     </div>
     <div>
-      <div class="row justify-between items-center">
+      <div class="row justify-around">
         <div>
           <h6>{{user.firstName}} {{user.lastName}}</h6>
         </div>
         <div>
-          <button class="circular clear" v-on:click="profile">
-            <i>perm_identity</i>
-          </button>
+          <q-btn flat icon="perm_identity" @click="profile" />
         </div>
       </div>
     </div>
@@ -20,10 +20,14 @@
 </template>
 
 <script>
+import { QBtn } from 'quasar'
 import store from 'src/store'
 
 export default {
   name: 'identity',
+  components: {
+    QBtn
+  },
   data () {
     return {}
   },

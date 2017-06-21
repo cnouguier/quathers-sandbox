@@ -9,9 +9,9 @@
     <!-- 
       Items section 
     -->
-    <div v-show="nbTotalItems > 0" class="column justify-center items-center content-center">
-      <div class="full-width">
-        <div class="list no-border" v-for="item in items">
+    <div class="column justify-center items-center">
+      <div  class="row" style="max-width: 90vw">
+        <div v-for="item in items" :key="item" class="col-xs-6 col-sm-4 col-lg-3">
           <renderer :item="item" :actions="filterActions('item')" @actionTrigerred="onActionTriggered" />
         </div>
       </div>
@@ -19,7 +19,7 @@
         <q-pagination v-model="currentPage" :max="nbPages" style="padding: 18px" @input="onPageChanged" />
       </div>
     </div>
-    <!-- 
+    <!--
       Fab section 
     -->
     <fab :actions="filterActions()" @actionTrigerred="onActionTriggered" />
@@ -28,12 +28,17 @@
 
 <script>
 import logger from 'loglevel'
+import { QList, QPagination } from 'quasar'
 import { loadComponent } from 'src/utils.js'
 import config from 'src/configuration.js'
 import api from 'src/api'
 
 export default {
   name: 'collection',
+  components: {
+    QList,
+    QPagination
+  },
   props: {
     service: {
       type: String,
@@ -43,6 +48,12 @@ export default {
       type: Array,
       default: function () {
         return []
+      }
+    },
+    options: {
+      type: Object,
+      default: function () {
+        return null
       }
     }
   },
@@ -56,6 +67,9 @@ export default {
     }
   },
   computed: {
+    hasDelimiter () {
+      return this.options ? this.options.delimiter === true : false
+    },
     nbPages () {
       return Math.ceil(this.$data.nbTotalItems / this.$data.nbItemsPerPage)
     },
