@@ -63,7 +63,7 @@
     <div slot="footer" class="row justify-center">
       <div>
         Already have an account ?
-        <button class="primary clear centered small" @click="$router.push('login')">Log In</button>
+        <q-btn color="primary" flat centered small @click="$router.push('login')">Log In</q-btn>
       </div>
     </div>
   </screen>
@@ -73,7 +73,7 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import { Toast } from 'quasar'
+import { QBtn, Toast } from 'quasar'
 import Screen from 'src/components/Screen'
 import { register } from 'src/authentication'
 
@@ -82,6 +82,7 @@ Vue.use(Vuelidate)
 export default {
   name: 'register',
   components: {
+    QBtn,
     Screen
   },
   data () {

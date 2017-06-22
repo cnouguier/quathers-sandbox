@@ -5,40 +5,35 @@
     v-on:closed="$router.push('/')"
     v-on:submitted="submit()"
     >
-    <div class="column gutter justify-center">
+    <div slot="form" class="column justify-center">
       <!-- Email -->
-      <div>
-        <div class="floating-label">
-          <input required type="text" class="full-width" v-model="form.email" @input="$v.form.email.$touch()" v-bind:class="{'has-error': $v.form.email.$error}">
-          <label>Email Address</label>
-          <q-tooltip v-show="!$v.form.email.email">
-            This field must be a valid email address
-          </q-tooltip>
-        </div>
-      </div>
+      <q-field
+        icon="mail"
+        label="Email"
+        :label-width="2"
+        helper="Type your email"
+        :error="$v.form.email.$error"
+        error-label="Please type a valid email"
+      >
+        <q-input type="email" v-model="form.email" @blur="$v.form.email.$touch" />
+      </q-field>
       <!-- Password -->
-      <div>
-        <div>
-          <div class="floating-label">
-            <input required type="password" class="full-width" v-model="form.password" @input="$v.form.password.$touch()" v-bind:class="{'has-error': $v.form.password.$error}">
-            <label>Password</label>
-            <q-tooltip v-show="!$v.form.password.minLength">
-              This field must have at least {{ $v.form.password.$params.minLength.min }} characters
-            </q-tooltip>
-          </div>
-        </div>
-        <div>
-          <router-link to="/resetpassword">
-            Forgot your password ?
-          </router-link>
-        </div>
-
-      </div>
+      <q-field
+        icon="lock"
+        label="Password"
+        :label-width="2"
+        helper="Type your password"
+        :error="$v.form.password.$error"
+        error-label="Please type a valid password"
+        :count="24"
+      >
+        <q-input type="password" max-length="16" v-model="form.password" />
+      </q-field>
     </div>
     <div slot="footer" class="row justify-center">
       <div>
         Don't have an account ?
-        <button class="primary clear centered small" @click="$router.push('register')">Register</button>
+        <q-btn color="primary" flat centered small @click="$router.push('register')">Register</q-btn>
       </div>
     </div>
   </screen>
@@ -48,7 +43,7 @@
 import Vue from 'vue'
 import Vuelidate from 'vuelidate'
 import { required, email, minLength } from 'vuelidate/lib/validators'
-import { Toast } from 'quasar'
+import { QField, QInput, QBtn, Toast } from 'quasar'
 import Screen from 'src/components/Screen'
 import { login } from 'src/authentication'
 
@@ -57,6 +52,9 @@ Vue.use(Vuelidate)
 export default {
   name: 'login',
   components: {
+    QField,
+    QInput,
+    QBtn,
     Screen
   },
   data () {

@@ -20,15 +20,12 @@
       Actions section
     -->
     <q-card-separator />
-    <q-card-actions>   
-      <q-btn 
-        v-for="action in actions" 
-        :key="action" 
-        :icon="action.icon"
-        flat
-        @click="$emit('actionTrigerred', action.handler, item)">
-        {{ action.label }}
-      </q-btn>
+    <q-card-actions>
+      <template v-for="action in actions">   
+        <q-btn flat color="primary" :icon="action.icon" @click="$emit('actionTrigerred', action.handler, item)">
+          <small>{{ action.label }}</small>
+        </q-btn>
+      </template>
     </q-card-actions>
   </q-card>
 </template>

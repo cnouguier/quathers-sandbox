@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="column justify-center"> 
     <!-- 
       Filter section 
     -->
@@ -9,15 +9,13 @@
     <!-- 
       Items section 
     -->
-    <div class="column justify-center items-center">
-      <div  class="row" style="max-width: 90vw">
-        <div v-for="item in items" :key="item" class="col-xs-6 col-sm-4 col-lg-3">
-          <renderer :item="item" :actions="filterActions('item')" @actionTrigerred="onActionTriggered" />
-        </div>
+    <div class="row">
+      <div v-for="item in items" :key="item" :class="layout">
+        <renderer :item="item" :actions="filterActions('item')" @actionTrigerred="onActionTriggered" />
       </div>
-      <div>
-        <q-pagination v-model="currentPage" :max="nbPages" style="padding: 18px" @input="onPageChanged" />
-      </div>
+    </div>
+    <div class="self-center">
+      <q-pagination v-model="currentPage" :max="nbPages" style="padding: 18px" @input="onPageChanged" />
     </div>
     <!--
       Fab section 
@@ -50,11 +48,9 @@ export default {
         return []
       }
     },
-    options: {
-      type: Object,
-      default: function () {
-        return null
-      }
+    layout: {
+      type: String,
+      default: 'col-xs-12 col-sm-6 col-lg-4 col-xl-3'
     }
   },
   data () {
@@ -62,7 +58,7 @@ export default {
       query: {},
       items: [],
       nbTotalItems: 0,
-      nbItemsPerPage: 8,
+      nbItemsPerPage: 12,
       currentPage: 1
     }
   },
