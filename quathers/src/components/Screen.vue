@@ -1,32 +1,35 @@
 <template>
-  <div class="column justify-center items-center bg-grey-5 window-height window-width">
-    <q-card style="width:500px">
-      <q-card-title class="bg-light" style="padding:18px">
-        <div class="column">
-          <div class="self-end">
-            <q-btn icon="close" color="primary" flat round small @click="close" />
-          </div>
-          <div>
-            <slot name="header">
+  <div class="row justify-center items-center window-height window-width" v-bind:class="backgroundColor">
+    <div class="col-xs-12 col-sm-10 col-md-9 col-bg-8 col-lg-7 col-xl-5">
+      <!--
+        Header section
+      -->
+      <slot name="header" />
+      <!--
+        Frame section
+      -->
+      <q-card>
+        <!-- Title section -->
+        <q-card-title :class="frameColor">
+          <div class="row justify-between">
+            <div>
               <h5>{{title}}</h5>
-            </slot>
+            </div>
+            <div v-if="isClosable">
+              <q-btn icon="close" color="primary" flat round small @click="$emit('closed')" />
+            </div>
           </div>
-        </div>
-      </q-card-title>
-      <q-card-main class="bg-light" style="padding:18px">
-        <div class="column">
-          <div>
-            <slot name="form"></slot>
-          </div>
-          <div class="self-center" style="padding:18px">
-            <q-btn color="primary" bif v-bind:class="{'disabled': invalid}" @click="submit">{{ action }}</q-btn>
-          </div>
-          <div>
-            <slot name="footer"></slot>
-          </div>
-        </div>
-      </q-card-main>
-    </q-card>
+        </q-card-title>
+         <!-- Content section -->
+        <q-card-main :class="frameColor">
+          <slot name="content" />
+        </q-card-main>
+      </q-card>
+      <!-- 
+        Footer section
+      -->
+      <slot name="footer" />
+    </div>
   </div>
 </template>
 
@@ -46,29 +49,21 @@ export default {
       type: String,
       default: ''
     },
-    action: {
-      type: String,
-      default: 'Submit'
+    isClosable: {
+      type: Boolean,
+      default: true
     },
-    invalid: {
-      type: Boolean
+    backgroundColor: {
+      type: String,
+      default: 'bg-grey-5'
+    },
+    frameColor: {
+      type: String,
+      default: 'bg-light'
     }
   },
   data () {
     return {}
-  },
-  methods: {
-    close () {
-      this.$emit('closed')
-    },
-    submit () {
-      if (!this.invalid) {
-        this.$emit('submitted')
-      }
-    }
   }
 }
 </script>
-
-<style>
-</style>
