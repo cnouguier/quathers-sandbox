@@ -57,7 +57,7 @@
 
     <div class="row justify-around" style="padding: 18px">
       <q-btn v-if="cancelButton !== ''" color="primary" @click="cancel">{{ cancelButton }}</q-btn>
-      <q-btn color="primary" @click="submit">{{ submitButton }}</q-btn>
+      <q-btn color="primary" :disabled="$v.schema.$error" @click="submit">{{ submitButton }}</q-btn>
     </div>
 
   </div>
