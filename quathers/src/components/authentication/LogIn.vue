@@ -1,9 +1,13 @@
 <template>
   <screen title="Log In" :isClosable=false>
     <div slot="content" class="column justify-center">
-      <!-- Form -->
-      <q-form :schema="schema" submitButtonLabel="Log In" @submitted="submit" />
-      <!-- -->
+      <!-- 
+        Login form 
+       -->
+      <q-form :schema="schema" submitButton="Log In" @submitted="submit" />
+      <!-- 
+        Register link 
+       -->
       <div class="self-center">
         Don't have an account ?
         <q-btn color="primary" flat centered @click="$router.push('register')">Register</q-btn>
@@ -13,10 +17,11 @@
 </template>
 
 <script>
-import { QBtn, Toast } from 'quasar'
+import { QBtn } from 'quasar'
 import Screen from 'src/components/Screen'
 import QForm from 'src/components/form/QForm'
 import { login } from 'src/authentication'
+import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'login',
@@ -25,6 +30,7 @@ export default {
     QForm,
     Screen
   },
+  // TODO: define a library of fields to be included within a schema
   data () {
     return {
       schema: {
@@ -37,9 +43,8 @@ export default {
           helper: 'Type your email',
           errorLabel: 'Please, type a valid email',
           validators: {
-            email: {
-              type: 'email'
-            }
+            email,
+            required
           }
         },
         password: {
@@ -52,14 +57,9 @@ export default {
           errorLabel: 'Please, type a valid password',
           count: 16,
           validators: {
-            minLength: {
-              type: 'minLength',
-              min: 8
-            },
-            maxLength: {
-              type: 'maxLength',
-              min: 16
-            }
+            minLength: minLength(8),
+            maxLength: maxLength(16),
+            required
           }
         }
       }
@@ -68,9 +68,6 @@ export default {
   methods: {
     submit (data) {
       login(data.email, data.password)
-      .catch(_ => {
-        Toast.create.negative('Cannot login. Please check your credentials and try again.')
-      })
     }
   }
 }

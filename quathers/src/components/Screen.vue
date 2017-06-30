@@ -1,6 +1,6 @@
 <template>
   <div class="row justify-center items-center window-height window-width" v-bind:class="backgroundColor">
-    <div class="col-xs-12 col-sm-10 col-md-9 col-bg-8 col-lg-7 col-xl-5">
+    <div class="col-xs-10 col-sm-9 col-md-7 col-bg-5 col-lg-4 col-xl-4">
       <!--
         Header section
       -->

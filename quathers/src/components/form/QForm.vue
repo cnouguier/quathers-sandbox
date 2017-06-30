@@ -6,7 +6,7 @@
         :label="field.label"
         :label-width="3"
         :helper="field.helper"
-        :error="hasError(field)"
+        :error="$v.schema[field.key].model.$error"
         :error-label="field.errorLabel"
         :count="field.count"
       >
@@ -14,14 +14,13 @@
         <q-input
           v-if="__isInputType(field.type)"
           :type="field.type"
-          v-model="field.model"
-          @input="touchValidator(field)" />
+          v-model="schema[field.key].model"
+          @blur="$v.schema[field.key].model.$touch()" />
 
         <q-chips-input
           v-else-if="field.type === 'chips'"
           v-model="field.model"
-          :color="field.color"
-          :float-label="field.label" />
+          :color="field.color" />
 
         <q-option-group
           v-else-if="['radio', 'checkbox', 'toggle'].includes(field.type)"
@@ -56,8 +55,9 @@
       </q-field>
     </template>
 
-    <div class="row justify-center" style="padding: 18px">
-      <q-btn color="primary" @click="submit">{{ submitButtonLabel }}</q-btn>
+    <div class="row justify-around" style="padding: 18px">
+      <q-btn v-if="cancelButton !== ''" color="primary" @click="cancel">{{ cancelButton }}</q-btn>
+      <q-btn color="primary" @click="submit">{{ submitButton }}</q-btn>
     </div>
 
   </div>
@@ -66,7 +66,6 @@
 <script>
 import { QField, QInput, QChipsInput, QOptionGroup, QSlider, QRange, QRating, QBtn } from 'quasar'
 import { validationMixin } from 'vuelidate'
-import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'q-form',
@@ -85,27 +84,38 @@ export default {
       type: Object,
       required: true
     },
-    submitButtonLabel: {
+    submitButton: {
       type: String,
       default: 'Submit'
+    },
+    cancelButton: {
+      type: String,
+      default: ''
     }
   },
   data () {
     return {
     }
   },
+  validations () {
+    var validator = { schema: {} }
+    Object.entries(this.schema).forEach(field => {
+      // Add the 'key' property storing schema key to access this field
+      this.schema[field[0]].key = field[0]
+      // Add the 'model' property
+      validator.schema[field[0]] = { model: {} }
+      // If any add the 'validators' assigned to this model
+      if (field[1].validators) {
+        validator.schema[field[0]].model = field[1].validators
+      }
+    })
+    return validator
+  },
   methods: {
+    // TODO: can we get it from Quasar ?
     __isInputType (type) {
       let inputTypes = [ 'text', 'textarea', 'email', 'tel', 'file', 'number', 'password', 'url' ]
       return inputTypes.includes(type)
-    },
-    hasError (field) {
-      // console.log('hasError: ' + field.name + ' ' + this.$v[field.name].$error)
-      return this.$v.schema[field.name].$error
-    },
-    touchValidator (field) {
-      // console.log('touchValidator: ' + field.name)
-      this.$v.schema[field.name].$touch()
     },
     submit () {
       let data = {}
@@ -119,18 +129,6 @@ export default {
       this.$emit('canceled')
     }
   },
-  mixins: [ validationMixin ],
-  validations: {
-    schema: {
-      email: {
-        email,
-        required
-      },
-      password: {
-        minLength: minLength(8),
-        maxLength: maxLength(16)
-      }
-    }
-  }
+  mixins: [validationMixin]
 }
 </script>
