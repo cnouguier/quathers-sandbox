@@ -35,7 +35,6 @@ export default {
     return {
       schema: {
         email: {
-          name: 'email',
           type: 'email',
           model: '',
           label: 'Email',
@@ -48,7 +47,6 @@ export default {
           }
         },
         password: {
-          name: 'password',
           type: 'password',
           model: '',
           label: 'Password',
