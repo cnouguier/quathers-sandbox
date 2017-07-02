@@ -4,13 +4,13 @@
       <!-- 
         Login form 
        -->
-      <q-form :schema="schema" submitButton="Log In" @submitted="submit" />
+      <q-form :schema="schema" submitButton="Log In" @submitted="onSubmitted" />
       <!-- 
         Register link 
        -->
       <div class="self-center">
         Don't have an account ?
-        <q-btn color="primary" flat centered @click="$router.push('register')">Register</q-btn>
+        <q-btn color="primary" flat small centered @click="$router.push('register')">Register</q-btn>
       </div>
     </div>
   </screen>
@@ -64,7 +64,7 @@ export default {
     }
   },
   methods: {
-    submit (data) {
+    onSubmitted (data) {
       login(data.email, data.password)
     }
   }

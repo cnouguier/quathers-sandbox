@@ -1,111 +1,96 @@
 <template>
   <screen title="Log In" :isClosable=false>
-    <div slot="content" class="column justify-center">
-      <q-field
-        icon="email"
-        label="email"
-        :label-width="3"
-        helper="Type your email"
-        :error="$v.form.email.model.$error"
-        error-label="Type a valid email"
-      >
-        <q-input
-          type="email"
-          v-model="form.email.model"
-          @blur="$v.form.email.model.$touch" />
-      </q-field>
-      <q-field
-        icon="password"
-        label="password"
-        :label-width="3"
-        helper="Type your passwaord"
-        :error="$v.form.password.model.$error"
-        error-label="Type a valid password"
-      >
-        <q-input
-          type="password"
-          v-model="form.password.model"
-          @blur="$v.form.password.model.$touch" />
-      </q-field>
+   <div slot="content" class="column justify-center">
+      <!-- 
+        Register form 
+       -->
+      <q-form :schema="schema" submitButton="Register" @submitted="onSubmitted" />
+      <!-- 
+        Log In link 
+       -->
+      <div class="self-center">
+        Already have an account ?
+        <q-btn color="primary" flat small centered @click="$router.push('login')">Log In</q-btn>
+      </div>
     </div>
   </screen>
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
-import { required, email, minLength, sameAs } from 'vuelidate/lib/validators'
-import { QField, QInput, QBtn, Toast } from 'quasar'
+import { QBtn } from 'quasar'
+import QForm from 'src/components/form/QForm'
 import Screen from 'src/components/Screen'
+import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 import { register } from 'src/authentication'
-
-Vue.use(Vuelidate)
 
 export default {
   name: 'register',
   components: {
-    QField,
-    QInput,
+    QForm,
     QBtn,
     Screen
   },
   data () {
     return {
-      form: {
-        firstName: '',
-        lastName: '',
+      schema: {
+        name: {
+          type: 'text',
+          model: '',
+          label: 'Name',
+          helper: 'Type your name',
+          errorLabel: 'Please, type a valid name',
+          count: 24,
+          validators: {
+            minLength: minLength(6),
+            maxLength: maxLength(24),
+            required
+          }
+        },
         email: {
-          model: ''
+          type: 'email',
+          model: '',
+          label: 'Email',
+          helper: 'Type your email',
+          errorLabel: 'Please, type a valid email',
+          validators: {
+            email,
+            required
+          }
         },
         password: {
-          model: ''
+          type: 'password',
+          model: '',
+          label: 'Password',
+          helper: 'Type your password',
+          errorLabel: 'Please, type a valid password',
+          count: 16,
+          validators: {
+            minLength: minLength(8),
+            maxLength: maxLength(16),
+            required
+          }
         },
-        confirmPassword: '',
-        policiesAccepted: false
-      }
-    }
-  },
-  validations: {
-    form: {
-      firstName: {
-        required,
-        minLength: minLength(1)
-      },
-      lastName: {
-        required,
-        minLength: minLength(3)
-      },
-      email: {
-        model: {
-          required,
-          email
+        confirmPassword: {
+          type: 'password',
+          model: '',
+          label: 'Confirm Password',
+          helper: 'Type your password again',
+          errorLabel: 'Please, type a valid password',
+          count: 16,
+          validators: {
+            sameAs: sameAs('password.model')
+          }
         }
-      },
-      password: {
-        model: {
-          required,
-          minLength: minLength(8)
-        }
-      },
-      confirmPassword: {
-        required,
-        sameAsPassword: sameAs('password')
       }
     }
   },
   methods: {
-    submit () {
+    onSubmitted () {
       register(this.$data.form)
       .then(_ => {
         this.$router.push({name: 'home'})
-      })
-      .catch(_ => {
-        Toast.create.negative('Cannot register. Please contact our support.')
       })
     }
   }
 }
 </script>
-
-<style>
-</style>
