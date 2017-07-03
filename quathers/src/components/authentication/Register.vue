@@ -10,9 +10,11 @@
       Log In link
     -->
     <div slot="frame-footer" class="row justify-center">
-      <a class="text-dark" @click="$router.push('Login')">
-        Already have an account ?
-      </a>
+      <small>
+        <a class="text-dark" @click="$router.push('Login')">
+          Already have an account ?
+        </a>
+      </small>
     </div>
   </k-screen>
 </template>

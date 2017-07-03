@@ -1,5 +1,5 @@
 <template>
-  <k-screen title="Change Password" :isClosable=false>
+  <k-screen title="Change Password" :isClosable="false">
    <div slot="frame-content" class="column justify-center">
       <!-- 
         Change Password form 

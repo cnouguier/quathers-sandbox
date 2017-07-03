@@ -1,65 +1,46 @@
 <template>
-  <k-screen
-    title="Reset Password"
-    v-bind:invalid=$v.form.$invalid
-    v-on:closed="$router.push('login')"
-    v-on:submitted="doResetPassword()"
-    >
-    <div class="column gutter justify-center">
-      <!-- Information -->
+  <k-screen title="Reset Password" :isClosable="true" @closed="$router.push('Login')">
+   <div slot="frame-content" class="column justify-center">
       <div>
         We'll send you password reset instructions to the email address below.
       </div>
-      <!-- Email -->
-      <div>
-        <div class="floating-label">
-          <input required type="text" class="full-width" v-model="form.email" @input="$v.form.email.$touch()" v-bind:class="{'has-error': $v.form.email.$error}">
-          <label>Email Address</label>
-        </div>
-        <q-tooltip v-show="!$v.form.email">
-          This field must be a valid email address
-        </q-tooltip>
-      </div>
+      <k-form :schema="schema" submitButton="Submit" @submitted="onSubmitted" />
     </div>
   </k-screen>
 </template>
 
 <script>
-  import Vue from 'vue'
-  import Vuelidate from 'vuelidate'
-  import { required, email } from 'vuelidate/lib/validators'
-  import { Toast } from 'quasar'
-  import KScreen from 'src/components/KScreen'
+import KForm from 'src/components/form/KForm'
+import KScreen from 'src/components/KScreen'
+import {required, email} from 'vuelidate/lib/validators'
 
-  Vue.use(Vuelidate)
-
-  export default {
-    name: 'reset-password',
-    components: {
-      KScreen
-    },
-    data () {
-      return {
-        form: {
-          email: ''
-        }
-      }
-    },
-    validations: {
-      form: {
+export default {
+  name: 'reset-password',
+  components: {
+    KScreen,
+    KForm
+  },
+  data () {
+    return {
+      schema: {
         email: {
-          required,
-          email
+          type: 'email',
+          model: '',
+          label: 'Email',
+          helper: 'Type your email',
+          errorLabel: 'Please, type a valid email',
+          validators: {
+            email,
+            required
+          }
         }
-      }
-    },
-    methods: {
-      doResetPassword () {
-        Toast.create.negative('To be implemented')
       }
     }
+  },
+  methods: {
+    onSubmitted (data) {
+      console.log(data)
+    }
   }
+}
 </script>
-
-<style>
-</style>

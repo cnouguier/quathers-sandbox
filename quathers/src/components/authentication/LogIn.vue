@@ -1,5 +1,5 @@
 <template>
-  <k-screen title="Log In" :isClosable=false>
+  <k-screen title="Log In" :isClosable="false">
     <div slot="frame-content" class="column justify-center">
       <!-- 
         Login form 
@@ -16,9 +16,11 @@
       Register link
     -->
     <div slot="frame-footer" class="row justify-center">
-      <a class="text-dark" @click="$router.push('Register')">
-        Don't have an account ?
-      </a>
+      <small>
+        <a class="text-tertiary" @click="$router.push('Register')">
+          Don't have an account ?
+        </a>
+      </small>
     </div>
   </k-screen>
 </template>
@@ -73,7 +75,7 @@ export default {
   },
   methods: {
     onSubmitted (data) {
-      login(data.email.model, data.password.model)
+      login(data.email, data.password)
     }
   }
 }

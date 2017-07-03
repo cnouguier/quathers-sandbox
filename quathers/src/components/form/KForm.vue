@@ -118,7 +118,9 @@ export default {
       return inputTypes.includes(type)
     },
     submit () {
+      // Validate the form
       this.$v.schema.$touch()
+      // Retrieve the data if the form is valid
       if (this.$v.schema.$error === false) {
         let data = {}
         Object.keys(this.schema).forEach(name => {
