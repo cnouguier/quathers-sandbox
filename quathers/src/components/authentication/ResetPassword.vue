@@ -1,5 +1,5 @@
 <template>
-  <screen
+  <k-screen
     title="Reset Password"
     v-bind:invalid=$v.form.$invalid
     v-on:closed="$router.push('login')"
@@ -21,7 +21,7 @@
         </q-tooltip>
       </div>
     </div>
-  </screen>
+  </k-screen>
 </template>
 
 <script>
@@ -29,14 +29,14 @@
   import Vuelidate from 'vuelidate'
   import { required, email } from 'vuelidate/lib/validators'
   import { Toast } from 'quasar'
-  import Screen from 'src/components/Screen'
+  import KScreen from 'src/components/KScreen'
 
   Vue.use(Vuelidate)
 
   export default {
     name: 'reset-password',
     components: {
-      Screen
+      KScreen
     },
     data () {
       return {

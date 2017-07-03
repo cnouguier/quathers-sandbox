@@ -1,47 +1,57 @@
 <template>
-  <screen title="Log In" :isClosable=false>
-   <div slot="content" class="column justify-center">
-      <!-- 
-        Register form 
-       -->
-      <q-form :schema="schema" submitButton="Register" @submitted="onSubmitted" />
-      <!-- 
-        Log In link 
-       -->
-      <div class="self-center">
-        Already have an account ?
-        <q-btn color="primary" flat small centered @click="$router.push('login')">Log In</q-btn>
-      </div>
+  <k-screen title="Register" :isClosable="false">
+    <!--
+      Register form
+    -->
+    <div slot="frame-content" class="column justify-center">
+      <k-form :schema="schema" submitButton="Register" @submitted="onSubmitted" />
     </div>
-  </screen>
+    <!--
+      Log In link
+    -->
+    <div slot="frame-footer" class="row justify-center">
+      <a class="text-dark" @click="$router.push('Login')">
+        Already have an account ?
+      </a>
+    </div>
+  </k-screen>
 </template>
 
 <script>
-import { QBtn } from 'quasar'
-import QForm from 'src/components/form/QForm'
-import Screen from 'src/components/Screen'
-import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
+import KForm from 'src/components/form/KForm'
+import KScreen from 'src/components/KScreen'
 import { register } from 'src/authentication'
+import { required, email, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 
 export default {
   name: 'register',
   components: {
-    QForm,
-    QBtn,
-    Screen
+    KForm,
+    KScreen
   },
   data () {
     return {
       schema: {
-        name: {
+        firstName: {
           type: 'text',
           model: '',
-          label: 'Name',
-          helper: 'Type your name',
-          errorLabel: 'Please, type a valid name',
-          count: 24,
+          label: 'First name',
+          helper: 'Type your first name',
+          errorLabel: 'Please, type a valid first name',
           validators: {
-            minLength: minLength(6),
+            minLength: minLength(3),
+            maxLength: maxLength(24),
+            required
+          }
+        },
+        lastName: {
+          type: 'text',
+          model: '',
+          label: 'Last name',
+          helper: 'Type your Last name',
+          errorLabel: 'Please, type a valid last name',
+          validators: {
+            minLength: minLength(3),
             maxLength: maxLength(24),
             required
           }
@@ -78,18 +88,15 @@ export default {
           errorLabel: 'Please, type a valid password',
           count: 16,
           validators: {
-            sameAs: sameAs('password.model')
+            sameAs: sameAs(_ => this.schema.password.model)
           }
         }
       }
     }
   },
   methods: {
-    onSubmitted () {
-      register(this.$data.form)
-      .then(_ => {
-        this.$router.push({name: 'home'})
-      })
+    onSubmitted (data) {
+      register(data)
     }
   }
 }

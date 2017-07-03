@@ -1,34 +1,44 @@
 <template>
-  <screen title="Log In" :isClosable=false>
-    <div slot="content" class="column justify-center">
+  <k-screen title="Log In" :isClosable=false>
+    <div slot="frame-content" class="column justify-center">
       <!-- 
         Login form 
        -->
-      <q-form :schema="schema" submitButton="Log In" @submitted="onSubmitted" />
+      <k-form :schema="schema" submitButton="Log In" @submitted="onSubmitted" />
       <!-- 
         Register link 
-       -->
-      <div class="self-center">
-        Don't have an account ?
-        <q-btn color="primary" flat small centered @click="$router.push('register')">Register</q-btn>
-      </div>
+      -->
+      <a class="self-center text-primary" @click="$router.push('ResetPassword')">
+        Forgot your password ?
+      </a>
     </div>
-  </screen>
+    <!--
+      Register link
+    -->
+    <div slot="frame-footer" class="row justify-center">
+      <a class="text-dark" @click="$router.push('Register')">
+        Don't have an account ?
+      </a>
+    </div>
+  </k-screen>
 </template>
 
 <script>
-import { QBtn } from 'quasar'
-import Screen from 'src/components/Screen'
-import QForm from 'src/components/form/QForm'
+import { QList, QItem, QItemMain, QBtn } from 'quasar'
+import KScreen from 'src/components/KScreen'
+import KForm from 'src/components/form/KForm'
 import { login } from 'src/authentication'
 import { required, email, minLength, maxLength } from 'vuelidate/lib/validators'
 
 export default {
   name: 'login',
   components: {
+    QList,
+    QItem,
+    QItemMain,
     QBtn,
-    QForm,
-    Screen
+    KForm,
+    KScreen
   },
   // TODO: define a library of fields to be included within a schema
   data () {
@@ -38,7 +48,6 @@ export default {
           type: 'email',
           model: '',
           label: 'Email',
-          icon: 'email',
           helper: 'Type your email',
           errorLabel: 'Please, type a valid email',
           validators: {
@@ -50,7 +59,6 @@ export default {
           type: 'password',
           model: '',
           label: 'Password',
-          icon: 'lock',
           helper: 'Type your password',
           errorLabel: 'Please, type a valid password',
           count: 16,
@@ -65,7 +73,7 @@ export default {
   },
   methods: {
     onSubmitted (data) {
-      login(data.email, data.password)
+      login(data.email.model, data.password.model)
     }
   }
 }

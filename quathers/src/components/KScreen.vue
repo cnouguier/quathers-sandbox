@@ -4,31 +4,33 @@
       <!--
         Header section
       -->
-      <slot name="header" />
+      <slot name="frame-header" />
       <!--
         Frame section
       -->
-      <q-card>
+      <q-card :class="frameColor">
         <!-- Title section -->
-        <q-card-title :class="frameColor">
-          <div class="row justify-between">
-            <div>
-              <h5>{{title}}</h5>
+        <q-card-title>
+          <slot name="frame-title">
+            <div class="row justify-between">
+              <div>
+                <h5>{{title}}</h5>
+              </div>
+              <div v-if="isClosable">
+                <q-btn icon="close" color="primary" flat round small @click="$emit('closed')" />
+              </div>
             </div>
-            <div v-if="isClosable">
-              <q-btn icon="close" color="primary" flat round small @click="$emit('closed')" />
-            </div>
-          </div>
+          </slot>
         </q-card-title>
          <!-- Content section -->
-        <q-card-main :class="frameColor">
-          <slot name="content" />
+        <q-card-main>
+          <slot name="frame-content" />
         </q-card-main>
       </q-card>
       <!-- 
         Footer section
       -->
-      <slot name="footer" />
+      <slot name="frame-footer" />
     </div>
   </div>
 </template>
@@ -37,7 +39,7 @@
 import { QCard, QCardTitle, QCardMain, QBtn } from 'quasar'
 
 export default {
-  name: 'screen',
+  name: 'k-screen',
   components: {
     QCard,
     QCardTitle,

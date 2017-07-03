@@ -57,7 +57,7 @@
 
     <div class="row justify-around" style="padding: 18px">
       <q-btn v-if="cancelButton !== ''" color="primary" @click="cancel">{{ cancelButton }}</q-btn>
-      <q-btn color="primary" :disabled="$v.schema.$error" @click="submit">{{ submitButton }}</q-btn>
+      <q-btn color="primary" @click="submit">{{ submitButton }}</q-btn>
     </div>
 
   </div>
@@ -68,7 +68,7 @@ import { QField, QInput, QChipsInput, QOptionGroup, QSlider, QRange, QRating, QB
 import { validationMixin } from 'vuelidate'
 
 export default {
-  name: 'q-form',
+  name: 'k-form',
   components: {
     QField,
     QInput,
@@ -118,12 +118,15 @@ export default {
       return inputTypes.includes(type)
     },
     submit () {
-      let data = {}
-      Object.keys(this.schema).forEach(name => {
-        const el = this.schema[name]
-        data[name] = el.model
-      })
-      this.$emit('submitted', data)
+      this.$v.schema.$touch()
+      if (this.$v.schema.$error === false) {
+        let data = {}
+        Object.keys(this.schema).forEach(name => {
+          const el = this.schema[name]
+          data[name] = el.model
+        })
+        this.$emit('submitted', data)
+      }
     },
     cancel () {
       this.$emit('canceled')

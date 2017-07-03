@@ -1,75 +1,59 @@
 <template>
-  <screen
-    title="Reset Password"
-    v-bind:invalid=$v.form.$invalid
-    v-on:closed="$router.push('/')"
-    v-on:submitted="doChangePassword()"
-    >
-    <div class="column gutter justify-center">
-      <!-- Information -->
-      <div>
-        We'll send you password reset instructions to the email address below.
-      </div>
-      <!-- Password -->
-      <div>
-        <div class="floating-label">
-          <input required type="password" class="full-width" v-model="form.password" @input="$v.form.password.$touch()" v-bind:class="{'has-error': $v.form.password.$error}">
-          <label>Password</label>
-          <q-tooltip v-show="!$v.form.password.minLength">
-            This field must have at least {{ $v.form.password.$params.minLength.min }} characters
-          </q-tooltip>
-        </div>
-      </div>
-      <!-- Confirm Password  -->
-      <div>
-        <div class="floating-label">
-          <input required type="password" class="full-width" v-model="form.confirmPassword" @input="$v.form.confirmPassword.$touch()" v-bind:class="{'has-error': $v.form.confirmPassword.$error}">
-          <label>Confirm Password</label>
-        </div>
-      </div>
+  <k-screen title="Change Password" :isClosable=false>
+   <div slot="frame-content" class="column justify-center">
+      <!-- 
+        Change Password form 
+       -->
+      <k-form :schema="schema" submitButton="Submit" @submitted="onSubmitted" />
     </div>
-  </screen>
+  </k-screen>
 </template>
 
 <script>
-import Vue from 'vue'
-import Vuelidate from 'vuelidate'
-import { required, minLength, sameAs } from 'vuelidate/lib/validators'
-import { Toast } from 'quasar'
-import Screen from 'src/components/Screen'
-
-Vue.use(Vuelidate)
+import KForm from 'src/components/form/KForm'
+import KScreen from 'src/components/KScreen'
+import { required, minLength, maxLength, sameAs } from 'vuelidate/lib/validators'
 
 export default {
+  name: 'register',
+  components: {
+    KScreen,
+    KForm
+  },
   data () {
     return {
-      form: {
-        password: '',
-        confirmPassword: ''
-      }
-    }
-  },
-  validations: {
-    form: {
-      password: {
-        required,
-        minLength: minLength(8)
-      },
-      confirmPassword: {
-        sameAsPassword: sameAs('password')
+      schema: {
+        password: {
+          type: 'password',
+          model: '',
+          label: 'Password',
+          helper: 'Type your password',
+          errorLabel: 'Please, type a valid password',
+          count: 16,
+          validators: {
+            minLength: minLength(8),
+            maxLength: maxLength(16),
+            required
+          }
+        },
+        confirmPassword: {
+          type: 'password',
+          model: '',
+          label: 'Confirm Password',
+          helper: 'Type your password again',
+          errorLabel: 'Please, type a valid password',
+          count: 16,
+          validators: {
+            sameAs: sameAs('schema.password.model')
+          }
+        }
       }
     }
   },
   methods: {
-    doCangePassword () {
-      Toast.create.negative('To be implemented')
+    onSubmitted () {
+      console.log('TODO')
     }
-  },
-  components: {
-    'screen': Screen
   }
 }
 </script>
-
-<style>
-</style>
