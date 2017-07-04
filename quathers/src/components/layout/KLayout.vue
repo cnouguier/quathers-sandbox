@@ -3,11 +3,11 @@
     <!--
       The AppBar
     -->
-    <app-bar slot="header" ref="app_bar" @menuClicked="$refs.layout.toggleLeft()" />
+    <k-app-bar slot="header" ref="app_bar" @menuClicked="$refs.layout.toggleLeft()" />
     <!--
       The SideNav
     -->
-    <side-nav slot="left" ref="side_nav" />
+    <k-side-nav slot="left" ref="side_nav" />
     <!--
       The Content area
     -->
@@ -18,14 +18,14 @@
 <script>
 import { QLayout } from 'quasar'
 import { loadComponent } from 'src/utils.js'
-import config from 'src/configuration.js'
+import store from 'src/store.js'
 
 export default {
   name: 'layout',
   components: {
     QLayout,
-    'app-bar': loadComponent(config.layout.appBar ? config.layout.appBar : 'layout/AppBar'),
-    'side-nav': loadComponent(config.layout.sideNav ? config.layout.sideNav : 'layout/SideNav')
+    'k-app-bar': loadComponent(store.getConfValue('layout.appBar', 'layout/KAppBar')),
+    'k-side-nav': loadComponent(store.getConfValue('layout.sideNav', 'layout/KSideNav'))
   },
   data () {
     return {}

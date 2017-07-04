@@ -3,7 +3,7 @@
     <!--
       User's identity
     --> 
-    <identity />
+    <k-identity />
     <!--
       Links area
     -->
@@ -28,7 +28,7 @@
 <script>
 import { QList, QItem, QItemSide, QItemMain, QSideLink, QItemSeparator } from 'quasar'
 import { loadComponent } from 'src/utils.js'
-import config from 'src/configuration.js'
+import store from 'src/store.js'
 
 export default {
   name: 'side-nav',
@@ -39,17 +39,18 @@ export default {
     QItemMain,
     QSideLink,
     QItemSeparator,
-    'identity': loadComponent(config.sideNav.identity ? config.sideNav.identity : 'layout/Identity')
+    'k-identity': loadComponent(store.getConfValue('sideNav.identity', 'layout/KIdentity'))
   },
   data () {
     return {
-      links: []
+    }
+  },
+  computed: {
+    links () {
+      return store.getConfValue('sideNav.links', [])
     }
   },
   mounted () {
-    if (config.sideNav.links) {
-      this.links = config.sideNav.links
-    }
     this.$emit('sideNavReady')
   }
 }

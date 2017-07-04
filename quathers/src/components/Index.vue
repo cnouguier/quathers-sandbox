@@ -1,7 +1,7 @@
 <template>
   <div>
     <div v-if="authenticated">
-      <layout></layout>
+      <k-layout />
     </div>
     <div v-else>
       <router-view class="layout-view"></router-view>
@@ -11,13 +11,13 @@
 
 <script>
 import { Toast, Events } from 'quasar'
-import Layout from 'src/components/layout/Layout'
+import KLayout from 'src/components/layout/KLayout'
 import { restoreSession } from 'src/authentication'
 import store from 'src/store'
 
 export default {
   components: {
-    Layout
+    KLayout
   },
   data () {
     return {
